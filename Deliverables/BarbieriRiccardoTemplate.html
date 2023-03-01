@@ -222,7 +222,7 @@ div.imagedesc{
 <div class="remark">
     <h3>Test BoundaryWalk:<br></h3>
     Con BoundaryWalk si descrive una completa navigazione lungo i bordi della mappa in senso orario da parte del robot.<br>
-    Supponendo che il robot si trovi in posizione HOME, è possibile verificare una BounderyWalk facendo muovere il robot in avanti fino a ottenere una collisione, ruotarlo a sinistra e ripetere tre volte. Esprimendo in termini di messaggi formali:
+    Supponendo che il robot si trovi in posizione HOME, &egrave; possibile verificare una BounderyWalk facendo muovere il robot in avanti fino a ottenere una collisione, ruotarlo a sinistra e ripetere tre volte. Esprimendo in termini di messaggi formali:
     <ol>
         <li>
             {"robotmove": "moveForward", "time": 50000}
@@ -246,16 +246,16 @@ div.imagedesc{
             Se si ottiene una collisione, si tenga traccia del timestamp alla ricezione del messaggio {"collision":"moveForward","target":"wall[Down|Up|Left|Right]"} e lo si confronti con quello di partenza, per poi utilizzare l'intervallo di tempo come distanza approssimata tra due wall
         </li>
         <li>
-            Se non si ottiene una collisione, ritornare al punto di partenza e ripetere passi 1-3 con un intervallo di tempo più alto per l'azione "moveForward"
+            Se non si ottiene una collisione, ritornare al punto di partenza e ripetere passi 1-3 con un intervallo di tempo pi&ugrave; alto per l'azione "moveForward"
         </li>
     </ol>
-    Ripetendo questi passi per la misurazione della distanza del secondo muro, si può ottenere un intervallo di tempo approssimato che aiuta a ridurre le successive iterazioni di movimento da un wall all'opposto.
+    Ripetendo questi passi per la misurazione della distanza del secondo muro, si pu&ograve; ottenere un intervallo di tempo approssimato che aiuta a ridurre le successive iterazioni di movimento da un wall all'opposto.
 </div>
 <div class="remark">
     <h3>Test posizionamento HOME:<br></h3>
-    Il robot si trova in HOME quando è posizionato nell'angolo superiore sinistro ed è rivolto verso il basso. <br>
-    Per testare che il robot sia nella posizione HOME è possibile analizzare quali ostacoli vengono colpiti inviando una certa serie di comandi per modificare la posizione e la rotazione del robot, e dedurre da questi se la posizione iniziale era HOME o no (eventualmente anche portandolo nella posizione HOME desiderata). <br>
-    Una sequenza di istruzioni che permette di verificare se il robot è in HOME è la seguente:
+    Il robot si trova in HOME quando &egrave; posizionato nell'angolo superiore sinistro ed &egrave; rivolto verso il basso. <br>
+    Per testare che il robot sia nella posizione HOME &egrave; possibile analizzare quali ostacoli vengono colpiti inviando una certa serie di comandi per modificare la posizione e la rotazione del robot, e dedurre da questi se la posizione iniziale era HOME o no (eventualmente anche portandolo nella posizione HOME desiderata). <br>
+    Una sequenza di istruzioni che permette di verificare se il robot &egrave; in HOME &egrave; la seguente:
     <ol>
         <li>
             Ruotare verso destra: {"robotmove": "turnRight", "time": 100}
@@ -264,7 +264,7 @@ div.imagedesc{
             Spostare in avanti: {"robotmove": "moveForward", "time": 200}
         </li>
         <li>
-            Se si ottiene in risposta: {"collision": "moveForward", "target": "wallLeft"}, significa che il robot è molto vicino al "wallLeft"
+            Se si ottiene in risposta: {"collision": "moveForward", "target": "wallLeft"}, significa che il robot &egrave; molto vicino al "wallLeft"
         </li>
         <li>
             Se si ottiene in risposta soltanto {"endmove":"true","move":"moveForward"}, significa che il robot non ha incontrato ostacoli, quindi era sicuramente molto lontano dal "wallLeft"
@@ -279,7 +279,7 @@ div.imagedesc{
             Inviare altre due volte il messaggio {"robotmove": "turnRight", "time": 100} per ruotare il robot verso il basso
         </li>
     </ol>
-    Questa strategia può funzionare purché si mantengano relativamente bassi i tempi di durata delle azioni "moveForward", per ottenere una collisione solo se la distanza da "wallLeft" e "wallUp" è bassa.
+    Questa strategia pu&ograve; funzionare purch&eacute; si mantengano relativamente bassi i tempi di durata delle azioni "moveForward", per ottenere una collisione solo se la distanza da "wallLeft" e "wallUp" &egrave; bassa.
 </div>
 
 
