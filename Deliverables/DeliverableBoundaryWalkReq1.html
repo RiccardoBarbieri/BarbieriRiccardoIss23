@@ -210,28 +210,48 @@ Il VirtualRobot deve percorrere (una volta) il bordo perimetrale della stanza ra
  
 
 <h2>Requirement analysis</h2>
- 
-Per VirtualRobot, il committente intende: si veda <a href="https://iss.riccardohost.space/VirtualRobot23.html">VirtualRobot23</a>
-Per <i>scena WEnv</i> il committente intende: si veda <a href="https://iss.riccardohost.space/VirtualRobot23.html#la-scena-di-wenv">Scena WEnv</a>
 
-
+<div class="remark">
+    Per VirtualRobot, il committente intende: si veda <a href="https://iss.riccardohost.space/VirtualRobot23.html">VirtualRobot23</a><br>
+    Per <i>scena WEnv</i> il committente intende: si veda <a href="https://iss.riccardohost.space/VirtualRobot23.html#la-scena-di-wenv">Scena WEnv</a><br>
+    Per "percorrere il bordo della stanza" si intende uno spostamento a una certa distanza sufficientemente bassa dalle pareti che denotano il bordo della stanza.
+</div>
 
 <h2>Problem analysis</h2>
- 
+
+<div class="remark">
+    La problematica principale che si pone consiste nella rilevazione della distanza dal muro, che non è possibile utilizzando il modello di interazione fornito dal committente.<br>
+    Considerando l'insieme di risposte previste dal protocollo di comunicazione del robot, è possibile identificare quale ostacolo il robot colpisce tramite il messaggio di risposta 
+    <br><br>"{"collision":"moveForward","target":"OBSTACLEID"}"
+    <br><br>dove "OBSTACLEID" può assumere i valori "wallUp", "wallDown", "wallLeft" e "wallRight".<br>
+    Analizzando questi messaggi di risposta è possibile individuare una BoundaryWalk completata con successo, tuttavia questo approccio limita il sistema a interagire con il robot in modalità <b>asincrona</b>, in particolare tramite tecnologia WebSocket, in quanto soltanto le entità che utilizzano il protocollo asincrono possono ricevere questo tipo di risposta.<br><br>
+
+
+</div>
 
 <h2>Test plans</h2> 
+Supponendo che il robot si trovi in posizione HOME, è possibile verificare una BounderyWalk facendo muovere il robot in avanti fino a ottenere una collisione, ruotarlo a sinistra e ripetere tre volte. Esprimendo in termini di messaggi formali:
+{"robotmove": "moveForward", "time": 50000}
+{"robotmove": "turnRight", "time": 500}
+Ripetere passi 1-2 altre tre volte
+Il tempo di esecuzione dell'azione "moveForward" deve essere alto, per assicurare l'ottenimento della collisione necessaria a marcare il raggiungimento di un particolare wall; alternativamente a scegliere un intervallo di tempo arbitrariamente alto, si potrebbero effettuare test per rilevare la distanza necessaria per raggiungere un determinato ostacolo seguendo questo piano di movimento:
+Si tenga traccia del timestamp alla partenza
+{"robotmove": "moveForward", "time": 50000}, con tempo arbitrariamente alto
+Se si ottiene una collisione, si tenga traccia del timestamp alla ricezione del messaggio {"collision":"moveForward","target":"wall[Down|Up|Left|Right]"} e lo si confronti con quello di partenza, per poi utilizzare l'intervallo di tempo come distanza approssimata tra due wall
+Se non si ottiene una collisione, ritornare al punto di partenza e ripetere passi 1-3 con un intervallo di tempo più alto per l'azione "moveForward"
+Ripetendo questi passi per la misurazione della distanza del secondo muro, si può ottenere un intervallo di tempo approssimato che aiuta a ridurre le successive iterazioni di movimento da un wall all'opposto.
 
 
 <h2>Project</h2> 
- 
+
 </div>
 
 <h2>Testing</h2> 
- 
+
 
 <h2>Deployment</h2> 
 
- 
+
 <h2>Maintenance</h2> 
  
 <!-- USEFUL
