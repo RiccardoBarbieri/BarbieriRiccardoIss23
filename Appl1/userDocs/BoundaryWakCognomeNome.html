@@ -149,6 +149,12 @@ div.remark{
     margin: 10px;
 	border-radius: 25px;
 }
+span.remark1{
+	background-color: #ffd1dc;
+    border-radius: 25px;
+    line-height: 1.5;
+    padding: 5px;
+}
 table, th, td {
   border: 1px solid black;
   border-collapse: collapse;
@@ -189,8 +195,7 @@ div.imagedesc{
     
 <head>
    
-<title>TemplateToFill</title>
-	</head>
+<title>BoundaryWakCognomeNome</title></head>
     
 <body>
 <div id="top">
@@ -199,25 +204,86 @@ div.imagedesc{
 
 <div class="body"> 
 <h2>Introduction</h2>
- 
+
+BoundaryWalk con HTTP discusso in Lab2 il 2 Marzo 2023.
  
 <h2>Requirements</h2>
 
  
 <div class="remark">
+Il VirtualRobot deve
+percorrere (una volta) il bordo perimetrale della stanza rappresentata ne La scena di WEnv
 </div>
 
-<h2>Requirement analysis</h2>
+
  
+
+<h2>Requirement analysis</h2>
+
+ <li>Per <i>VirtualRobot</i>, il committente intende: si veda <a href="../../iss23Material/html/VirtualRobot23.html" target="web">VirtualRobot23.html</a></li>
+ <li>Per <i>scena di WEnv</i>, il committente intende: si veda <a href="../../iss23Material/html/VirtualRobot23.html#la-scena-di-wenv" target="web">VirtualRobot23.html#la-scena-di-wenv</a></li>
+
+<li>Il <i>bordo perimetrale</i> può essere definito con riferimento a un
+<h4 id="modstanza">Modello della stanza</h4>
+...
+
+</li>
 
 <h2>Problem analysis</h2>
+<p>
+Vi sono due
+    <a href="../../iss23Material/html/VirtualRobot23.html#come-interagire-con-wenv" target="web">
+        modi per interagire con VirtualRobot23.html</a>:
+via HTTP e via WebSocket.
+</p><p>
+    Il committente ha imposto un <span class="remark1">ulteriore requisito: <b>interazione via HTTP</b> </span>.
+</p>
+
+
+<h4 id="archlogica">Architettura logica</h4>
+
+    <table>
+        <tr>
+            <td width="40%">
+                <center><img src="./ArchLogica.PNG" alt="stanza" width="80%" height="80%"/>
+                </center>
+            </td>
+            <td width="60%"> Appl1 è la applicazione da realizzare.<p>
+                Tempo previsto:
+                <li>per realizzare il <i>codice applicativo</i>: <tt>2h</tt> (max) </li>
+                <li>per realizzare il <i>testing</i>: non precisable al momento in quanto
+                    <span class="remark1">occorre approfondire l'analisi del probelma-testing</span>.
+                </li>
+                </p>
+            </td>
+        </tr>
+    </table>
+
+    <br/>
+    L'uso di una interazione di tipo sincrono facilita l'impostazione di una soluzione, quale ad esempio:
+    <pre>
+    Partendo da <a href="../../iss23Material/html/VirtualRobot23.html#stato-iniziale-del-virtualrobot" target="web">HOME</a>:
+    Esegui per 4 volte:
+       muovi il robot in avanti per un tempo abbastanza lungo per collidere col muro di fronte
+       ruota a sinistra</pre>
+
+    Queste azioni possono gà essere <b>formalizzate</b> (con Java) usando <b>funzioni</b>
+    (da realizzare in fase di progetto/implementazione):
+    <pre>
+        for( int i=1; i<=4; i++ ){
+            walkAheadUntilCollision();
+            turnLeft();
+        }</pre>
+
+
+<h2>Test plans</h2>
+<p>
+Il <a href="#modstanza">Modello della stanza</a> suggerisce che, al termine della esecuzione:
+    ...
+
+<h2>Project</h2>
  
-
-<h2>Test plans</h2> 
-
-
-<h2>Project</h2> 
-
+</div>
 
 <h2>Testing</h2> 
  
@@ -240,10 +306,10 @@ div.imagedesc{
 <br/><br/> 	
 </div>  
 
-<div style="background-color:rgba(86, 56, 253, 0.9); width:60%;text-align:left;color:white">
-By Riccardo Barbieri email: riccardo.barbieri11@studio.unibo.it, 
-<img src="../_images/fototessera.jpg" alt="mbot" width="15%" height="15%">
-GIT repo: https://github.com/RiccardBarbieri/BarbieriRiccardoIss23 
+<div style="background-color:rgba(86, 56, 253, 0.9); width:100%;text-align:left;color:white">
+By studentName email: student@studio.unibo.it, 
+<img src="./teacher.gif" alt="teacher" width="15%" height="15%">
+GIT repo: https://github.com/... 
 </div> 
 </body>
 </html>
