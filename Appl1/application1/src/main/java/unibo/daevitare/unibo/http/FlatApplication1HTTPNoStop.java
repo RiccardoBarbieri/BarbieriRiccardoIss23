@@ -1,6 +1,5 @@
 package unibo.daevitare.unibo.http;
 
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
@@ -14,7 +13,7 @@ import unibo.common.VrobotMsgs;
 
 import java.net.URI;
 
-public class FlatApplication1NoStop {
+public class FlatApplication1HTTPNoStop {
     private final String localHostName = "localhost";
     private final int port = 8090;
     private JSONParser simpleparser = new JSONParser();

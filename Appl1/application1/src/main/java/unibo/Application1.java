@@ -1,5 +1,6 @@
 package unibo;
 
+import unibo.basicomm23.msg.ProtocolType;
 import unibo.basicomm23.utils.CommUtils;
 
 public class Application1 {
