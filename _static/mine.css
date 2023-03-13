@@ -1,0 +1,11 @@
+pre { line-height: 125%; }
+pre {
+    padding: 5px;
+    background-color: unset;
+    color: unset;
+    line-height: 120%;
+    border: 1px solid #ac9;
+    border-left: none;
+    border-right: none;
+}
+.highlight { background: #eeffcc; }
