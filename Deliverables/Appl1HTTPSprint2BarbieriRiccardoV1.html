@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <!--
+<link rel="stylesheet" type="text/css" href="../css/issStyle1.css">
+<script type="text/javascript" src="../css/issStyle.js"></script>
+-->
+
+<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+<link rel="stylesheet" href="../_static/template.css">
+<link rel="stylesheet" href="../_static/mine.css">
+
+    
+<head>
+<title>Application1 HTTP Sprint 1</title>
+</head>
+    
+<body>
+
+<div id="top">
+    <h1>LABORATORIO DI INGEGNERIA DEI SISTEMI SOFTWARE <font size="5"></font> </h1>
+</div>  
+
+<div class="body"> 
+
+<div class="remark">
+</div>
+
+<h2>Introduction</h2>
+ 
+<div class="remark">
+</div>
+ 
+<h2>Requirements</h2>
+
+<div class="remark">
+<ol>
+    <li>fase reattiva con gestione comandi stop resume</li>
+    <li>operare in seguito a comandi dalla CmdConsole</li>
+</ol>
+
+</div>
+
+<h2>Requirement analysis</h2>
+ 
+<div class="remark">
+Requisito non funzionale, logica applicativa in un singolo POJO per scorporare da main.<br>
+Evitare complessità della distribuzione tramite un simulatore e poi una console locale.
+
+</div>
+
+<h2>Problem analysis</h2>
+ 
+<div class="remark">
+Si definisce il singolo POJO per racchiudere la logica applicativa.
+
+I comandi stop e resume comportano alcuni problemi aggiuntivi rispetto alla semplice Boundary Walk: è necessario definire gli effetti collaterali dei due comandi nelle diverse situazioni nelle quali possono essere inviati.<br>
+
+Partendo dal comando <b>stop</b>, il primo problema che sorge è la gestione dell'interruzione dell'attività in corso: questo rende necessario salvare lo stato del robot in un'apposita struttura dati, alla ricezione di un comando <b>resume</b> lo stato deve essere ripristinato e l'azione in corso in precedenza ripresa.<br>
+
+Sorge la questione di scegliere quale strategia di movimento utilizzare per il robot che support stop/resume, le possibilità sono:
+<ol>
+    <li>walkAheadUntilCollision</li>
+    <li>walkByStepping</li>
+</ol>
+La prima modalità non permette di essere interrotta, data la sua natura sincrona e il tempo di esecuzione lungo; ls tecnica walkByStepping invece esegue una serie di azioni di durata limitata (atomiche): è possibile sospendere l'esecuzione della macroistruzione walkByStepping inserendosi tra due singoli step. 
+
+<img width="100%" height="auto" src="../_images/Appl1HTTPSprint2Arch.png" alt="Architettura">
+</div>
+
+<h2>Test plans</h2> 
+
+<div class="remark">
+Un componente Observable emette degli eventi e i componenti che sono interessati agli eventi di un certo elemento si iscrivono alla ricezione di notifiche allo scatenarsi di un particolare evento?<br>
+Come pu&ograve; un Observer accorgersi dell'evento?<br>
+L'elemento Observable mantiene una lista degli Observer ad esso iscritti e quando viene generato un evento viene chiamato un metodo notifyObservers che effettua opportune chiamate a metodi degli Observer che reagiscono all'evento. (Interfacce Observable e Observer?)
+</div>
+
+<h2>Project</h2> 
+
+<div class="remark">
+walkBySteppingWithStop esegue gli step per un lato del perimetro e tra ogni step controlla se l'applicazione &egrave; in stato stopped, se lo &egrave; attende per il segnale di resume con la funzione waitResume. <br>
+waitResume pone in attesa il thread fino a quando non viene effettuata una chiamata a resume.<br>
+stop imposta a true lo stato stopped e invia un halt al robot.
+</div>
+
+<h2>Testing</h2> 
+ 
+<div class="remark">
+</div>
+
+<h2>Deployment</h2> 
+
+<div class="remark">
+</div>
+ 
+<h2>Maintenance</h2> 
+ 
+<!-- USEFUL
+<table style="width:100%" border="1">
+<tr>
+<td style="width:50%">
+</td>
+<td></td>
+</tr>
+</table>
+-->
+	      	
+<br/><br/> 	
+</div>  
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:60%;text-align:left;color:white">
+By Riccardo Barbieri email: riccardo.barbieri11@studio.unibo.it, 
+<img src="../_images/fototessera.jpg" alt="mbot" width="15%" height="15%">
+GIT repo: https://github.com/RiccardBarbieri/BarbieriRiccardoIss23 
+</div> 
+</body>
+</html>

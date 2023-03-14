@@ -1,12 +1,15 @@
 package unibo.http;
 
 import unibo.basicomm23.http.HTTPCommApache;
+import unibo.basicomm23.utils.CommUtils;
 import unibo.common.CollisionException;
 import unibo.common.IVrobotMoves;
 import unibo.supports.VrobotHLMovesHTTPApache;
 
 public class Appl1HTTPSprint1 {
     private IVrobotMoves vr;
+
+    private int[] boundarySteps = {0, 0, 0, 0}; //For testing
 
     public Appl1HTTPSprint1() {
         configure();
@@ -36,10 +39,40 @@ public class Appl1HTTPSprint1 {
         throw new Exception("no collision");
     }
 
+    public void walkByStepping(int n) throws Exception {
+        boolean goon = true;
+        while( goon ) {
+            goon =  vr.step(350);
+            if( goon ) boundarySteps[n]++;
+            CommUtils.delay(300); //to show the steps better
+        }
+    }
+    public int[] getBoundarySteps(){  //for testig
+        return boundarySteps;
+    }
+
+    public boolean checkRobotAtHome() {
+        try {
+            vr.turnRight();
+            boolean res = vr.step(200);
+            if (res) return false;
+            vr.turnRight();
+            res = vr.step(200);
+            if (res) return false;
+            vr.turnLeft();
+            vr.turnLeft();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public static void main(String[] args) {
         Appl1HTTPSprint1 appl = new Appl1HTTPSprint1();
         try {
             appl.walkAtBoundary();  //ENTRY POINT
-        } catch (Exception e) {...}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
