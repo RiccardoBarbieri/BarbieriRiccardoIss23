@@ -1,7 +1,7 @@
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import unibo.http.Appl1HTTPSprint1;
+import unibo.Appl1HTTPSprint1;
 
 public class TestAppl1HTTPSprint1 {
     protected Appl1HTTPSprint1 appl;

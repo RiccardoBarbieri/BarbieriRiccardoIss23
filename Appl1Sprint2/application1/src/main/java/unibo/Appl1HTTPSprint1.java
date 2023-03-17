@@ -1,9 +1,9 @@
-package unibo.http;
+package unibo;
 
 import unibo.basicomm23.http.HTTPCommApache;
 import unibo.basicomm23.utils.CommUtils;
-import unibo.common.CollisionException;
-import unibo.common.IVrobotMoves;
+import unibo.appl1.common.CollisionException;
+import unibo.appl1.common.IVrobotMoves;
 import unibo.supports.VrobotHLMovesHTTPApache;
 
 public class Appl1HTTPSprint1 {
