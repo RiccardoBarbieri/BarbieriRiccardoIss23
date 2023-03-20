@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="TestFlatApplication1HTTPNostop" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-03-13T14:34:43" hostname="riccardo-ubuntu" time="12.58">
-  <properties/>
-  <testcase name="testWorkDone" classname="TestFlatApplication1HTTPNostop" time="12.58"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

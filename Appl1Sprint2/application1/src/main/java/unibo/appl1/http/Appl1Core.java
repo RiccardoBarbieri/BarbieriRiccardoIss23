@@ -1,10 +1,10 @@
 package unibo.appl1.http;
 
+import unibo.appl1.common.IAppl1Core;
+import unibo.appl1.common.IVrobotMoves;
 import unibo.appl1.observer.ObserverForPath;
 import unibo.basicomm23.http.HTTPCommApache;
 import unibo.basicomm23.utils.CommUtils;
-import unibo.appl1.common.IAppl1Core;
-import unibo.appl1.common.IVrobotMoves;
 import unibo.supports.VrobotHLMovesHTTPApache;
 
 import java.util.Observable;
@@ -24,7 +24,6 @@ public class Appl1Core extends Observable implements IAppl1Core {
 
     protected void configure() {
         String URL = "localhost:8090/api/move";
-        //URL potrebbe essere letto da un file di configurazione
         HTTPCommApache httpSupport = new HTTPCommApache(URL);
         vrobotMoves = new VrobotHLMovesHTTPApache(httpSupport);
         observerForPath = new ObserverForPath();
@@ -40,8 +39,10 @@ public class Appl1Core extends Observable implements IAppl1Core {
         boolean b = checkRobotAtHome(msg);
         CommUtils.outblue("robotMustBeAtHome " + msg + " " + b);
         if (b) {
-            if (msg.equals("START")) updateObservers("robot-athomebegin");
-            else if (msg.equals("END")) updateObservers("robot-athomeend");
+            if (msg.equals("START"))
+                updateObservers("robot-athomebegin");
+            else if (msg.equals("END"))
+                updateObservers("robot-athomeend");
         } else {
             throw new Exception("Appl1Core | robot must be at home");
         }
