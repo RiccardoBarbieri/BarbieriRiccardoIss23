@@ -1,13 +1,14 @@
 package unibo.supports;
 
 import org.json.simple.JSONObject;
+import unibo.appl1.http.TestAppl1HTTPSprint2;
 import unibo.basicomm23.http.HTTPCommApache;
 import unibo.appl1.common.CollisionException;
 import unibo.appl1.common.IVrobotMoves;
 import unibo.appl1.common.VrobotMsgs;
 
-
-public class VrobotHLMovesHTTPApache implements IVrobotMoves {
+// move to test
+public class VrobotHLMovesHTTPApache extends TestAppl1HTTPSprint2 implements IVrobotMoves {
     private HTTPCommApache httpSupport;
 
     public VrobotHLMovesHTTPApache(HTTPCommApache httpSupport) {

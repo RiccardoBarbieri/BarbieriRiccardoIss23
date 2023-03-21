@@ -13,6 +13,7 @@ public class Appl1Core extends Observable implements IAppl1Core {
 
     protected boolean started = false;
     protected boolean stopped = false;
+    protected boolean isRunning = false;
     protected IVrobotMoves vrobotMoves;
 
     private PathObserver pathObserver;
@@ -39,10 +40,8 @@ public class Appl1Core extends Observable implements IAppl1Core {
         boolean b = checkRobotAtHome(msg);
         CommUtils.outblue("robotMustBeAtHome " + msg + " " + b);
         if (b) {
-            if (msg.equals("START"))
-                updateObservers("robot-athomebegin");
-            else if (msg.equals("END"))
-                updateObservers("robot-athomeend");
+            if (msg.equals("START")) updateObservers("robot-athomebegin");
+            else if (msg.equals("END")) updateObservers("robot-athomeend");
         } else {
             throw new Exception("Appl1Core | robot must be at home");
         }
@@ -75,12 +74,18 @@ public class Appl1Core extends Observable implements IAppl1Core {
         }
     }
 
+    public boolean isRunning() {
+        return isRunning;
+    }
+
     public void walkAtBoundary() throws Exception {
         robotMustBeAtHome("START");
+        isRunning = true;
         for (int i = 1; i <= 4; i++) {
             walkBySteppingWithStop(i);
             vrobotMoves.turnLeft();
         }
+        isRunning = false;
         robotMustBeAtHome("END");
     }
 
@@ -131,4 +136,17 @@ public class Appl1Core extends Observable implements IAppl1Core {
             e.printStackTrace();
         }
     }
+
+    public String getCurrentPath() {
+        return pathObserver.getCurrentPath();
+    }
+
+    public String getPath() {
+        return pathObserver.getPath();
+    }
+
+    public boolean evalBoundaryDone() {
+        return pathObserver.evalBoundaryDone();
+    }
+
 }

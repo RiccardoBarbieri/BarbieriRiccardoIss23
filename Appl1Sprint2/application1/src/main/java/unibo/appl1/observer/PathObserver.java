@@ -10,8 +10,8 @@ import java.util.Vector;
 public class PathObserver extends ApplAbstractObserver {
 
     private boolean applIsTerminated;
-    private Vector<String> moveHistory = new Vector<String>();
-    private Set<String> moveCmds = new HashSet<String>();
+    private final Vector<String> moveHistory = new Vector<String>();
+    private final Set<String> moveCmds = new HashSet<String>();
 
     public PathObserver() {
         moveCmds.add("robot-stepdone");
@@ -50,19 +50,18 @@ public class PathObserver extends ApplAbstractObserver {
     }
 
     private String getPathAsCompactString() {
-        String hflat = moveHistory.toString()
-                .replace("[", "")
-                .replace("]", "")
-                .replace(",", "")
-                .replace(" ", "");
+        String hflat = moveHistory.toString().replace("[", "").replace("]", "").replace(",", "").replace(" ", "");
         return hflat;
     }
 
     public boolean evalBoundaryDone() {
         String hflat = getPath();  //bloccante
-        String[] splitted = hflat.toString().split("l");
-        boolean boundaryDone = splitted[0].length() == splitted[2].length()
-                && splitted[1].length() == splitted[3].length();
+        String[] splitted = hflat.split("l");
+        boolean boundaryDone = splitted[0].length() == splitted[2].length() && splitted[1].length() == splitted[3].length();
         return boundaryDone;
+    }
+
+    public String getCurrentPath() {
+        return getPathAsCompactString();
     }
 }

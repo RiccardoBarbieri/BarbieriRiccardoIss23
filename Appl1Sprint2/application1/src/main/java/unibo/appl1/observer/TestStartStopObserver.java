@@ -1,6 +1,7 @@
 package unibo.appl1.observer;
 
 import unibo.basicomm23.utils.ApplAbstractObserver;
+import unibo.basicomm23.utils.CommUtils;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -50,5 +51,35 @@ public class TestStartStopObserver extends ApplAbstractObserver {
         stopped = false;
         notifyAll();
     }
+
+    public Vector<String> getMoveHistory() {
+        return moveHistory;
+    }
+
+    public synchronized Vector<String> getMoveHistoryAfterStop() {
+        while (!stopped) { //! moveHistory.lastElement().equals("robot-stopped")
+            CommUtils.outmagenta("Appl1CoreTestStartStopObserver | wait for stop");
+            try {
+                wait();
+                //CommUtils.delay(300);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return moveHistory;
+    }
+
+    public synchronized void waitUntilResume() {
+        while (!(resumed)) {
+            CommUtils.outmagenta("Appl1CoreTestStartStopObserver | wait for resume");
+            //CommUtils.delay(200);
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
 }
