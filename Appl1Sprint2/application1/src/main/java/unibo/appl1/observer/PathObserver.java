@@ -7,13 +7,13 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
 
-public class ObserverForPath extends ApplAbstractObserver {
+public class PathObserver extends ApplAbstractObserver {
 
     private boolean applIsTerminated;
     private Vector<String> moveHistory = new Vector<String>();
     private Set<String> moveCmds = new HashSet<String>();
 
-    public ObserverForPath() {
+    public PathObserver() {
         moveCmds.add("robot-stepdone");
         moveCmds.add("robot-collision");
         moveCmds.add("robot-turnLeft");
@@ -65,5 +65,4 @@ public class ObserverForPath extends ApplAbstractObserver {
                 && splitted[1].length() == splitted[3].length();
         return boundaryDone;
     }
-}
 }
