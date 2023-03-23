@@ -1,0 +1,814 @@
+<html>
+<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+<link rel="stylesheet" href="../_static/template.css">
+<link rel="stylesheet" href="../_static/mine.css">Appl1HTTPSprint2
+<div id="Appl1HTTPSprint2" class="highlight">
+<pre><code class="prettyprint">package unibo;
+
+import unibo.appl1.http.Appl1Core;
+import unibo.basicomm23.utils.CommUtils;
+import unibo.console.CmdConsoleSimulator;
+
+public class Appl1HTTPSprint2 {
+    private Appl1Core appl1Core;
+    private CmdConsoleSimulator cmdConsole;
+
+    public Appl1HTTPSprint2() {
+        configureTheSystem();
+    }
+
+    public static void main(String[] args) throws Exception {
+        CommUtils.aboutThreads("Before start - ");
+        Appl1HTTPSprint2 appl = new Appl1HTTPSprint2();
+        appl.doJob();
+        CommUtils.aboutThreads("At end - ");
+    }
+
+    private void configureTheSystem() {
+        appl1Core = new Appl1Core();
+        cmdConsole = new CmdConsoleSimulator(appl1Core);
+    }
+
+    public void doJob() throws Exception {
+        cmdConsole.activate();   //imvoca start/stop/resume
+    }
+}</code></pre>
+</div>VrobotHLMovesHTTPApache
+<div id="VrobotHLMovesHTTPApache" class="highlight">
+<pre><code class="prettyprint">package unibo.supports;
+
+import org.json.simple.JSONObject;
+import unibo.appl1.http.TestAppl1HTTPSprint2;
+import unibo.basicomm23.http.HTTPCommApache;
+import unibo.appl1.common.CollisionException;
+import unibo.appl1.common.IVrobotMoves;
+import unibo.appl1.common.VrobotMsgs;
+
+// move to test
+public class VrobotHLMovesHTTPApache extends TestAppl1HTTPSprint2 implements IVrobotMoves {
+    private HTTPCommApache httpSupport;
+
+    public VrobotHLMovesHTTPApache(HTTPCommApache httpSupport) {
+        this.httpSupport = httpSupport;
+    }
+
+    @Override
+    public void turnLeft() throws Exception {
+        httpSupport.requestSynch(VrobotMsgs.turnleftcmd);
+    }
+
+    @Override
+    public void forward(int time) throws Exception {
+        JSONObject result = httpSupport.requestSynch(
+                VrobotMsgs.forwardcmd.replace("TIME", "" + time));
+        if (result.toString().contains("collision")) {
+            throw new CollisionException();
+        }
+    }
+
+    @Override
+    public void turnRight() throws Exception {
+        httpSupport.requestSynch(VrobotMsgs.turnrightcmd);
+    }
+
+    @Override
+    public void backward(int time) throws Exception {
+        JSONObject result = httpSupport.requestSynch(
+                VrobotMsgs.backwardcmd.replace("TIME", "" + time));
+        if (result.toString().contains("collision")) {
+            throw new CollisionException();
+        }
+    }
+
+    @Override
+    public void halt() throws Exception {
+        httpSupport.requestSynch(VrobotMsgs.haltcmd);
+    }
+
+    @Override
+    public boolean step(int time) throws Exception {
+        String cmd = VrobotMsgs.forwardcmd.replace("TIME", "" + time);
+        JSONObject result = httpSupport.requestSynch(cmd);
+        //{"endmove":true,"move":"moveForward"}  OPPURE:
+        //{"endmove":"false","move":"moveForward-collision"}
+        boolean collision = result.toString().contains("collision");
+        return !collision;
+    }
+
+
+}</code></pre>
+</div>CmdConsoleSimulator
+<div id="CmdConsoleSimulator" class="highlight">
+<pre><code class="prettyprint">package unibo.console;
+
+import unibo.appl1.http.Appl1Core;
+import unibo.basicomm23.utils.CommUtils;
+
+public class CmdConsoleSimulator {
+    private Appl1Core appl;
+    private Thread cmdConsoleSimul = new Thread("cmdConsole") {
+        public void run() {
+            for (int i = 1; i <= 5; i++) {
+                CommUtils.delay(3000);
+                CommUtils.outmagenta("cmdConsoleSimul send STOP " + i);
+                appl.stop();
+                CommUtils.delay(1500);
+                appl.resume();
+            }
+        }
+    };
+
+    public CmdConsoleSimulator(Appl1Core appl) {
+        this.appl = appl;
+    }
+
+    public void activate() {
+        try {
+            cmdConsoleSimul.start();
+            appl.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+</code></pre>
+</div>ButtonBasic
+<div id="ButtonBasic" class="highlight">
+<pre><code class="prettyprint">package unibo.console.gui;
+
+import java.awt.*;
+import java.awt.event.ActionListener;
+
+public class ButtonBasic extends java.awt.Button {
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
+    public ButtonBasic(Panel p, String label, ActionListener listener) {
+        super(label);
+        Font myFont = new Font("Arial", Font.PLAIN, 24);
+        setFont(myFont);
+        this.addActionListener(listener);
+        p.add(this);
+        p.validate();
+        p.isVisible();
+        //System.out.println("BUTTON BASIC CREATED");
+    }
+}</code></pre>
+</div>GuiUtils
+<div id="GuiUtils" class="highlight">
+<pre><code class="prettyprint">package unibo.console.gui;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+
+public class GuiUtils {
+
+    public static void showSystemInfo() {
+
+        System.out.println("Utils  | COMPUTER memory=" + Runtime.getRuntime().totalMemory() + " num of processors=" + Runtime.getRuntime().availableProcessors());
+        System.out.println("Utils AT START | num of threads=" + Thread.activeCount() + " currentThread=" + Thread.currentThread());
+    }
+
+    public static Frame initFrame(int dx, int dy) {
+        Frame frame = new Frame();
+        ImageIcon img = new ImageIcon("./resources/consolegui/mbot-S.jpg");
+        frame.setIconImage(img.getImage());
+        BorderLayout layout = new BorderLayout();
+        frame.setSize(new Dimension(dx, dy));
+        frame.setLayout(layout);
+        frame.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e) {
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                System.exit(0);
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+            }
+
+            @Override
+            public void windowActivated(WindowEvent e) {
+            }
+        });
+        frame.setVisible(true);
+        return frame;
+
+    }
+
+    public static Frame initFrame() {
+        return initFrame(400, 200);
+    }
+
+    public static void delay(int n) {
+        try {
+            Thread.sleep(n);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+}
+</code></pre>
+</div>ButtonAsGui
+<div id="ButtonAsGui" class="highlight">
+<pre><code class="prettyprint">package unibo.console.gui;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Observable;
+
+public class ButtonAsGui extends Observable implements ActionListener {
+
+    //Factory method
+    public static ButtonAsGui createButtons(String logo, String[] cmd) {
+        Frame fr = GuiUtils.initFrame(600, 300);
+        fr.add(new Label(logo), BorderLayout.NORTH);
+        Panel p = new Panel();
+        p.setLayout(new GridLayout(2, 3));
+        fr.add(p, BorderLayout.CENTER);
+
+        ButtonAsGui button = new ButtonAsGui();
+        for (int i = 0; i < cmd.length; i++)
+            new ButtonBasic(p, cmd[i], button);    //button is the listener
+        return button;
+    }
+
+    @Override  //from ActionListener
+    public void actionPerformed(ActionEvent e) {
+        this.setChanged();
+        this.notifyObservers(e.getActionCommand());
+    }
+}
+</code></pre>
+</div>Appl1HttpSprint2CmdConsole
+<div id="Appl1HttpSprint2CmdConsole" class="highlight">
+<pre><code class="prettyprint">package unibo.console.gui;
+
+import unibo.appl1.http.Appl1Core;
+import unibo.basicomm23.utils.CommUtils;
+
+import java.util.Observable;
+import java.util.Observer;
+
+/*
+ */
+//TODO: Fsre IApplication
+public class Appl1HttpSprint2CmdConsole implements Observer {
+    private final String[] buttonLabels = new String[]{"start", "stop", "resume", "exit"};
+    private final boolean started = false;
+    private Appl1Core appl;
+
+    public Appl1HttpSprint2CmdConsole() {
+        ButtonAsGui concreteButton = ButtonAsGui.createButtons("", buttonLabels);
+        concreteButton.addObserver(this);
+    }
+
+    public static void main(String[] args) {
+        new Appl1HttpSprint2CmdConsole();
+    }
+
+    protected void outState() {
+        CommUtils.outmagenta("outState " + appl);
+        if (appl != null) {
+            //appl.stop();
+            CommUtils.outred("PATH=" + appl.getPath());
+            CommUtils.outgreen("RESULT=" + appl.evalBoundaryDone());
+        }
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        try {
+            String move = arg.toString();
+            CommUtils.outgreen("GUI input move=" + move);
+            //if( move.equals("exit")) {outState(); System.exit(1);}
+            switch (move) {
+                case "start": {
+                    if (started) return;
+                    appl = new Appl1Core();
+                    new Thread() {
+                        public void run() {
+                            try {
+                                appl.start();
+                            } catch (Exception e) {
+                                CommUtils.outred(" StartStopGuiLocal | start ERROR:" + e.getMessage());
+                            }
+                        }
+                    }.start();
+                    break;
+                }
+                case "stop": {
+                    appl.stop();
+                    break;
+                }
+                case "resume": {
+                    appl.resume();
+                    break;
+                }
+                case "exit": {
+                    if (appl != null) {
+                        CommUtils.outred("CURPATH=" + appl.getCurrentPath());
+                        if (!appl.isRunning()) CommUtils.outgreen("RESULT=" + appl.evalBoundaryDone());
+                    }
+                    //CommUtils.waitTheUser("hot to exit");
+                    System.exit(0);
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            CommUtils.outred(" StartStopGuiLocal | update ERROR:" + e.getMessage());
+        }
+    }
+}
+
+</code></pre>
+</div>RoomModel
+<div id="RoomModel" class="highlight">
+<pre><code class="prettyprint">package unibo.appl1.model;
+
+public class RoomModel {
+    private int wallLeft, wallBottom, wallRight, wallTop;
+
+    public RoomModel(int wallLeft, int wallBottom, int wallRight, int wallTop) {
+        this.wallLeft = wallLeft;
+        this.wallBottom = wallBottom;
+        this.wallRight = wallRight;
+        this.wallTop = wallTop;
+    }
+
+
+}
+</code></pre>
+</div>Appl1Core
+<div id="Appl1Core" class="highlight">
+<pre><code class="prettyprint">package unibo.appl1.http;
+
+import unibo.appl1.common.IAppl1Core;
+import unibo.appl1.common.IVrobotMoves;
+import unibo.appl1.observer.PathObserver;
+import unibo.basicomm23.http.HTTPCommApache;
+import unibo.basicomm23.utils.CommUtils;
+import unibo.supports.VrobotHLMovesHTTPApache;
+
+import java.util.Observable;
+
+public class Appl1Core extends Observable implements IAppl1Core {
+
+    protected boolean started = false;
+    protected boolean stopped = false;
+    protected boolean isRunning = false;
+    protected IVrobotMoves vrobotMoves;
+
+    private PathObserver pathObserver;
+
+    public Appl1Core() {
+        configure();
+        stopped = false;
+    }
+
+    protected void configure() {
+        String URL = "localhost:8090/api/move";
+        HTTPCommApache httpSupport = new HTTPCommApache(URL);
+        vrobotMoves = new VrobotHLMovesHTTPApache(httpSupport);
+        pathObserver = new PathObserver();
+        addObserver(pathObserver);
+    }
+
+    private void updateObservers(String msg) {
+        setChanged();
+        notifyObservers(msg);
+    }
+
+    private void robotMustBeAtHome(String msg) throws Exception {
+        boolean b = checkRobotAtHome(msg);
+        CommUtils.outblue("robotMustBeAtHome " + msg + " " + b);
+        if (b) {
+            if (msg.equals("START")) updateObservers("robot-athomebegin");
+            else if (msg.equals("END")) updateObservers("robot-athomeend");
+        } else {
+            throw new Exception("Appl1Core | robot must be at home");
+        }
+    }
+
+    private boolean checkRobotAtHome(String msg) {
+        try {
+            vrobotMoves.turnRight();
+            boolean res = vrobotMoves.step(200);
+            if (res) return false;
+            vrobotMoves.turnRight();
+            res = vrobotMoves.step(200);
+            if (res) return false;
+            vrobotMoves.turnLeft();
+            vrobotMoves.turnLeft();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public void start() throws Exception {
+        if (!started) {
+            started = true;
+            walkAtBoundary();
+            started = false;
+        } else {
+            CommUtils.outyellow("Appl1Core already started");
+        }
+    }
+
+    public boolean isRunning() {
+        return isRunning;
+    }
+
+    public void walkAtBoundary() throws Exception {
+        robotMustBeAtHome("START");
+        isRunning = true;
+        for (int i = 1; i <= 4; i++) {
+            walkBySteppingWithStop(i);
+            vrobotMoves.turnLeft();
+        }
+        isRunning = false;
+        robotMustBeAtHome("END");
+    }
+
+    public void walkBySteppingWithStop(int n) throws Exception {
+        CommUtils.outyellow("walkBySteppingWithStop n = " + n);
+        boolean stepOk = true;
+        while (stepOk) {
+            if (stopped) {
+                CommUtils.beep();
+                updateObservers("robot-stopped");
+                waitResume();
+            }
+            updateObservers("robot-moving");
+            stepOk = vrobotMoves.step(350);
+            if (stepOk) {
+                updateObservers("robot-stepdone");
+                CommUtils.outyellow("stepdone");
+            } else {
+                updateObservers("robot-collision");
+                CommUtils.outyellow("collision");
+            }
+            CommUtils.delay(100);
+        }
+    }
+
+    public synchronized void waitResume() throws Exception {
+        while (stopped) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        updateObservers("robot-resumed");
+    }
+
+    public synchronized void resume() {
+        stopped = false;
+        notifyAll();
+    }
+
+    @Override
+    public void stop() {
+        stopped = true;
+        try {
+            vrobotMoves.halt();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getCurrentPath() {
+        return pathObserver.getCurrentPath();
+    }
+
+    public String getPath() {
+        return pathObserver.getPath();
+    }
+
+    public boolean evalBoundaryDone() {
+        return pathObserver.evalBoundaryDone();
+    }
+
+}
+</code></pre>
+</div>TestAppl1HTTPSprint2
+<div id="TestAppl1HTTPSprint2" class="highlight">
+<pre><code class="prettyprint">package unibo.appl1.http;
+
+import org.junit.Before;
+import org.junit.Test;
+import unibo.appl1.observer.TestStartStopObserver;
+import unibo.basicomm23.utils.CommUtils;
+
+import java.util.Vector;
+
+import static org.junit.Assert.fail;
+
+public class TestAppl1HTTPSprint2 {
+
+    private Appl1Core appl;
+    private TestStartStopObserver obsStartStop;
+
+    @Before
+    protected void initSystemTotest() {
+        appl = new Appl1Core(); //Il robot viene verificato in HOME !
+        obsStartStop = new TestStartStopObserver();
+        obsStartStop.init();
+        //AGGIUNGO OSSERVATORE per start/stop
+        appl.addObserver(obsStartStop);
+        //appl.addObserver(obsPath); //Già aggiunto nel POJO
+    }
+
+    private void startTheApplication() {
+        new Thread() {
+            public void run() {
+                try {
+                    appl.start();
+                } catch (Exception e) {
+                    fail("startTheApplication " + e.getMessage());
+                }
+            }
+        }.start();
+    }
+
+    private void checkHistoryAfterStop() {
+        Vector<String> h = obsStartStop.getMoveHistoryAfterStop();
+        assert (h.elementAt(0).equals("robot-athomebegin"));
+        assert (h.elementAt(1).equals("robot-moving"));
+        assert h.size() <= 3 || (h.elementAt(2).equals("robot-stepdone"));
+        //Dopo il secondo item ci possono essere altre coppie robot-moving/robot-stepdone
+        assert (h.elementAt(h.size() - 1).equals("robot-stopped"));
+    }
+
+    private void checkBoundaryDone() {
+        assert (appl.evalBoundaryDone());
+    }
+
+    @Test
+    public void testStartNoStop(){
+        startTheApplication();
+        checkBoundaryDone();  //wait
+    }
+
+
+    @Test
+    public void testStop(){
+        startTheApplication();
+        for( int i=1; i<=3; i++ ) {
+            CommUtils.delay(3000);
+            appl.stop();
+            checkHistoryAfterStop();
+            CommUtils.delay(1500);
+            appl.resume();
+            checkResumed();
+        }
+        checkBoundaryDone();
+    }
+
+}
+</code></pre>
+</div>PathObserver
+<div id="PathObserver" class="highlight">
+<pre><code class="prettyprint">package unibo.appl1.observer;
+
+import unibo.basicomm23.utils.ApplAbstractObserver;
+import unibo.basicomm23.utils.CommUtils;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Vector;
+
+public class PathObserver extends ApplAbstractObserver {
+
+    private boolean applIsTerminated;
+    private final Vector<String> moveHistory = new Vector<String>();
+    private final Set<String> moveCmds = new HashSet<String>();
+
+    public PathObserver() {
+        moveCmds.add("robot-stepdone");
+        moveCmds.add("robot-collision");
+        moveCmds.add("robot-turnLeft");
+        moveCmds.add("robot-athomeend");
+    }
+
+    @Override
+    public void update(String msg) {
+        if (msg.contains("robot-stepdone")) {
+            moveHistory.add("w");
+        } else if (msg.contains("robot-turnLeft")) {
+            moveHistory.add("l");
+        } else if (msg.equals("robot-collision")) {
+            moveHistory.add("|");
+        } else if (msg.equals("robot-athomeend")) {
+            setTerminated();
+        }
+    }
+
+    private synchronized void setTerminated() {
+        applIsTerminated = true;
+        notifyAll(); //riattiva getPath
+    }
+
+    public synchronized String getPath() {
+        while (!applIsTerminated) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                CommUtils.outred("Appl1ObserverForpath: getPath ERROR");
+            }
+        }
+        return getPathAsCompactString();
+    }
+
+    private String getPathAsCompactString() {
+        String hflat = moveHistory.toString().replace("[", "").replace("]", "").replace(",", "").replace(" ", "");
+        return hflat;
+    }
+
+    public boolean evalBoundaryDone() {
+        String hflat = getPath();  //bloccante
+        String[] splitted = hflat.split("l");
+        boolean boundaryDone = splitted[0].length() == splitted[2].length() && splitted[1].length() == splitted[3].length();
+        return boundaryDone;
+    }
+
+    public String getCurrentPath() {
+        return getPathAsCompactString();
+    }
+}
+</code></pre>
+</div>TestStartStopObserver
+<div id="TestStartStopObserver" class="highlight">
+<pre><code class="prettyprint">package unibo.appl1.observer;
+
+import unibo.basicomm23.utils.ApplAbstractObserver;
+import unibo.basicomm23.utils.CommUtils;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Vector;
+
+public class TestStartStopObserver extends ApplAbstractObserver {
+    private final Set<String> moveCmds = new HashSet<String>();
+    private Vector<String> moveHistory = new Vector<String>();
+    private boolean stopped = false;
+    private boolean resumed = true;
+
+    public TestStartStopObserver() {
+        moveCmds.add("robot-athomebegin");
+        moveCmds.add("robot-moving");
+        moveCmds.add("robot-stepdone");
+        moveCmds.add("robot-stopped");
+        moveCmds.add("robot-resumed");
+        moveCmds.add("robot-athomeend");
+    }
+
+    //permette di riusare l'observer in fase di testing
+    public void init() {
+        moveHistory = new Vector<String>();
+    }
+
+    @Override
+    public void update(String msg) {
+        if (moveCmds.contains(msg)) {
+            moveHistory.add(msg);
+            if (msg.equals("robot-stopped")) {
+                gotStopped();
+            }
+            if (msg.equals("robot-resumed")) {
+                gotResumed();
+            }
+        }
+    }
+
+    private synchronized void gotStopped() {
+        stopped = true;
+        resumed = false;
+        notifyAll();
+    }
+
+    private synchronized void gotResumed() {
+        resumed = true;
+        stopped = false;
+        notifyAll();
+    }
+
+    public Vector<String> getMoveHistory() {
+        return moveHistory;
+    }
+
+    public synchronized Vector<String> getMoveHistoryAfterStop() {
+        while (!stopped) { //! moveHistory.lastElement().equals("robot-stopped")
+            CommUtils.outmagenta("Appl1CoreTestStartStopObserver | wait for stop");
+            try {
+                wait();
+                //CommUtils.delay(300);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return moveHistory;
+    }
+
+    public synchronized void waitUntilResume() {
+        while (!(resumed)) {
+            CommUtils.outmagenta("Appl1CoreTestStartStopObserver | wait for resume");
+            //CommUtils.delay(200);
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+}
+</code></pre>
+</div>IAppl1Core
+<div id="IAppl1Core" class="highlight">
+<pre><code class="prettyprint">package unibo.appl1.common;
+
+public interface IAppl1Core {
+    public void start() throws Exception;
+    public void stop();
+    public void resume();
+}
+</code></pre>
+</div>IVrobotMoves
+<div id="IVrobotMoves" class="highlight">
+<pre><code class="prettyprint">package unibo.appl1.common;
+
+public interface IVrobotMoves {
+    public boolean step(int time) throws Exception;
+
+    public void turnLeft() throws Exception;
+
+    public void turnRight() throws Exception;
+
+    public void forward(int time) throws Exception;
+
+    public void backward(int time) throws Exception;
+
+    public void halt() throws Exception;
+}
+</code></pre>
+</div>VrobotMsgs
+<div id="VrobotMsgs" class="highlight">
+<pre><code class="prettyprint">package unibo.appl1.common;
+
+public class VrobotMsgs {
+
+    public final static String turnrightcmd =
+            "{\"robotmove\":\"turnRight\"    , \"time\": \"300\"}";
+    public final static String turnleftcmd =
+            "{\"robotmove\":\"turnLeft\"     , \"time\": \"400\"}";
+    public final static String haltcmd =
+            "{\"robotmove\":\"alarm\" ,        \"time\": \"10\"}";
+    public final static String stepcmd =
+            "{\"robotmove\":\"moveForward\"  , \"time\": \"350\"}";
+
+    public final static String forwardcmd =
+            "{\"robotmove\":\"moveForward\"  , \"time\": TIME}";
+    public final static String backwardcmd =
+            "{\"robotmove\":\"moveBackward\" , \"time\": TIME}";
+
+    public final static String forwardlongcmd =
+            "{\"robotmove\":\"moveForward\"  , \"time\": \"2300\"}";
+}
+</code></pre>
+</div>CollisionException
+<div id="CollisionException" class="highlight">
+<pre><code class="prettyprint">package unibo.appl1.common;
+
+public class CollisionException extends Exception {
+    public String getMessage() {
+        return "collision";
+    }
+}</code></pre>
+</div></html>

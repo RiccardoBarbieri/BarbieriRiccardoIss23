@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+<link rel="stylesheet" href="../../_static/template.css">
+<link rel="stylesheet" href="../../_static/mine.css">
+
+
+<head>
+    <title>Application1 HTTP Sprint 1</title>
+</head>
+
+<body>
+
+<div id="top">
+<h1>LABORATORIO DI INGEGNERIA DEI SISTEMI SOFTWARE <font size="5"></font>
+</h1>
+</div>
+
+<div class="body">
+
+<h2>Introduction</h2>
+
+<div class="remark">
+In questo sprint si documenta la realizzazione della gestione dei comandi stop e resume per il robot virtuale, creando un simulatore di console per il controllo del robot in locale.
+</div>
+
+<h2>Requirements</h2>
+
+<div class="remark">
+Il committente richiede che si possa impartire al robot i comandi <b>start</b>, <b>stop</b> e <b>resume</b>, questi comandi possono essere da una console.
+</div>
+
+<h2>Requirement analysis</h2>
+
+<div class="remark">
+La semantica dei comandi <b>stop</b> e <b>resume</b> stabilisce che devono essere gestiti in qualsiasi momento dell'esecuzione dell'applicazione, quindi si definisce una fase <span class="remark">reattiva</span> per la gestione di questi comandi. <br>
+Questi comandi vengono inviati da una console che, in questo sprint, si implementa come console locale, per evitare la complessità della distribuzione. <br>
+Si denota inoltre un requisito non funzionale: la logica applicativa deve essere implementata in un singolo POJO per introdurre un elemento core dell'applicazione che potr&agrave; essere riutilizzato in altri contesti.<br>
+</div>
+
+<h2>Problem analysis</h2>
+
+<div class="remark">
+I problemi principali affrontati in questa fase dello sviluppo sono:
+<ol>
+    <li>consolidamento della logica applicativa in un unico POJO riutilizzabile, definendo una interfaccia che questa classe dovr&agrave; rispettare</li>
+    <li>creazione di una console <b>simulata</b> e di una console <b>locale</b></li>
+    <li>implementazione dei comandi <i>stop</i> e <i>resume</i> utilizzando l'operazione <code class="prettyprint">step</code></li>
+</ol>
+
+Lo spostamento della logica applicativa in una classe dedicata permetter&agrave; di sfruttare il main dell'applicazione come un configuratore, questo componente sar&agrave; responsabile di istanziare:
+<ol>
+    <li>core dell'applicazione</li>
+    <li>simulatore della console</li>        
+</ol>
+
+La console simulata consister&agrave; di una classe che all'attivazione chiama la funzionalit&agrave; <code class="prettyprint">start</code> del core dell'applicazione e successivamente impartisce i comandi <code class="prettyprint">stop</code> e <code class="prettyprint">resume</code> un numero arbitrario di volte, simulando il comportamento di un utente che utilizza questa interfaccia.<br>
+
+<img width="500em" height="auto" src="../../_images/Appl1HTTPSprint2Arch.png" alt="Architettura Console - ApplCore - VirtualRobot"><br>
+
+Il comando <b>start</b> da il via alla BoundaryWalk.<br>
+
+I comandi stop e resume comportano alcuni problemi aggiuntivi: è necessario definire gli effetti collaterali dei due comandi nelle diverse situazioni nelle quali possono essere inviati, in particolare si pone il problema di quando interrompere l'esecuzione una volta ricevuto il comando stop.<br>
+
+Con il comando <b>stop</b>, sorge il problema della gestione dell'interruzione dell'attività in corso, si definisce quindi l'operazione di alto livello <code class="prettyprint">step</code> come <b>mossa atomica</b>, in questo modo il comando stop fermer&agrave; l'esecuzione solo una volta terminata l'operazione step corrente.<br>
+L'esecuzione viene interrotta sospendendo il thread sul quale &egrave; eseguito il core dell'applicazione, una volta ricevuto il comando <b>resume</b> viene risvegliato il thread che pu&ograve; proseguire l'esecuzione da dove &egrave; stata interrotta.<br>
+</div>
+
+<h2>Test plans</h2>
+
+<div class="remark">
+Anche nel caso dei test, in questo sprint si &egrave; deciso di separare dal core dell'applicazione le funzioni di utilit&agrave; introdotte precedentemente al solo scopo di ottenere informazione per il testing.<br>
+
+In questo caso torna utile il design pattern <code class="prettyprint">Observer</code> <code class="prettyprint">Observable</code>, strategia che permette a un oggetto <code class="prettyprint">Observer</code> di essere registrato alla ricezione di una comunicazione da parte di un oggetto <code class="prettyprint">Observable</code>, che, quando opportuno, comunica a tutti gli <code class="prettyprint">Observer</code> registrati una certa informazione.<br>
+
+In questo sprint si definiscono due 
+
+
+un componente Observable emette degli eventi e i componenti che sono interessati agli eventi di un certo elemento si iscrivono alla ricezione di notifiche allo scatenarsi di un particolare evento?<br>
+Come pu&ograve; un Observer accorgersi dell'evento?<br>
+L'elemento Observable mantiene una lista degli Observer ad esso iscritti e quando viene generato un evento viene chiamato un metodo notifyObservers che effettua opportune chiamate a metodi degli Observer che reagiscono all'evento. (Interfacce Observable e Observer?)
+</div>
+
+<h2>Project</h2>
+
+<div class="remark">
+walkBySteppingWithStop esegue gli step per un lato del perimetro e tra ogni step controlla se l'applicazione &egrave; in stato stopped, se lo &egrave; attende per il segnale di resume con la funzione waitResume. <br>
+waitResume pone in attesa il thread fino a quando non viene effettuata una chiamata a resume.<br>
+stop imposta a true lo stato stopped e invia un halt al robot.
+</div>
+
+<h2>Testing</h2>
+
+<div class="remark">
+</div>
+
+<h2>Deployment</h2>
+
+<div class="remark">
+</div>
+
+<h2>Maintenance</h2>
+
+<!-- USEFUL
+<table style="width:100%" border="1">
+<tr>
+<td style="width:50%">
+</td>
+<td></td>
+</tr>
+</table>
+-->
+
+<br /><br />
+</div>
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:60%;text-align:left;color:white">
+By Riccardo Barbieri email: riccardo.barbieri11@studio.unibo.it,
+<img src="../../_images/fototessera.jpg" alt="mbot" width="15%" height="15%">
+GIT repo: https://github.com/RiccardBarbieri/BarbieriRiccardoIss23
+</div>
+</body>
+
+</html>
