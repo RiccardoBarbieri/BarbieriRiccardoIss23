@@ -7,13 +7,13 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
 
-public class PathObserver extends ApplAbstractObserver {
+public class Appl1PathObserver extends ApplAbstractObserver {
 
     private boolean applIsTerminated;
     private final Vector<String> moveHistory = new Vector<String>();
     private final Set<String> moveCmds = new HashSet<String>();
 
-    public PathObserver() {
+    public Appl1PathObserver() {
         moveCmds.add("robot-stepdone");
         moveCmds.add("robot-collision");
         moveCmds.add("robot-turnLeft");

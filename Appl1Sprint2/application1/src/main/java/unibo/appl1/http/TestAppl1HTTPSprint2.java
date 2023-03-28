@@ -2,7 +2,7 @@ package unibo.appl1.http;
 
 import org.junit.Before;
 import org.junit.Test;
-import unibo.appl1.observer.TestStartStopObserver;
+import unibo.appl1.observer.Appl1TestStartStopObserver;
 import unibo.basicomm23.utils.CommUtils;
 
 import java.util.Vector;
@@ -12,12 +12,12 @@ import static org.junit.Assert.fail;
 public class TestAppl1HTTPSprint2 {
 
     private Appl1Core appl;
-    private TestStartStopObserver obsStartStop;
+    private Appl1TestStartStopObserver obsStartStop;
 
     @Before
     protected void initSystemTotest() {
         appl = new Appl1Core(); //Il robot viene verificato in HOME !
-        obsStartStop = new TestStartStopObserver();
+        obsStartStop = new Appl1TestStartStopObserver();
         obsStartStop.init();
         //AGGIUNGO OSSERVATORE per start/stop
         appl.addObserver(obsStartStop);

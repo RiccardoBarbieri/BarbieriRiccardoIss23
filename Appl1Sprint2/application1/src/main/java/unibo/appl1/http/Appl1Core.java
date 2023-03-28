@@ -2,7 +2,7 @@ package unibo.appl1.http;
 
 import unibo.appl1.common.IAppl1Core;
 import unibo.appl1.common.IVrobotMoves;
-import unibo.appl1.observer.PathObserver;
+import unibo.appl1.observer.Appl1PathObserver;
 import unibo.basicomm23.http.HTTPCommApache;
 import unibo.basicomm23.utils.CommUtils;
 import unibo.supports.VrobotHLMovesHTTPApache;
@@ -16,7 +16,7 @@ public class Appl1Core extends Observable implements IAppl1Core {
     protected boolean isRunning = false;
     protected IVrobotMoves vrobotMoves;
 
-    private PathObserver pathObserver;
+    private Appl1PathObserver pathObserver;
 
     public Appl1Core() {
         configure();
@@ -27,7 +27,7 @@ public class Appl1Core extends Observable implements IAppl1Core {
         String URL = "localhost:8090/api/move";
         HTTPCommApache httpSupport = new HTTPCommApache(URL);
         vrobotMoves = new VrobotHLMovesHTTPApache(httpSupport);
-        pathObserver = new PathObserver();
+        pathObserver = new Appl1PathObserver();
         addObserver(pathObserver);
     }
 

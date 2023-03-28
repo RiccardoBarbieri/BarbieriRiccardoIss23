@@ -66,19 +66,45 @@ Con il comando <b>stop</b>, sorge il problema della gestione dell'interruzione d
 L'esecuzione viene interrotta sospendendo il thread sul quale &egrave; eseguito il core dell'applicazione, una volta ricevuto il comando <b>resume</b> viene risvegliato il thread che pu&ograve; proseguire l'esecuzione da dove &egrave; stata interrotta.<br>
 </div>
 
-<h2>Test plans</h2>
+<h2 id="testplan">Test plans</h2>
 
 <div class="remark">
 Anche nel caso dei test, in questo sprint si &egrave; deciso di separare dal core dell'applicazione le funzioni di utilit&agrave; introdotte precedentemente al solo scopo di ottenere informazione per il testing.<br>
 
-In questo caso torna utile il design pattern <code class="prettyprint">Observer</code> <code class="prettyprint">Observable</code>, strategia che permette a un oggetto <code class="prettyprint">Observer</code> di essere registrato alla ricezione di una comunicazione da parte di un oggetto <code class="prettyprint">Observable</code>, che, quando opportuno, comunica a tutti gli <code class="prettyprint">Observer</code> registrati una certa informazione.<br>
+In questo caso torna utile il design pattern <code class="prettyprint">Observer</code>, strategia che permette a un oggetto <code class="prettyprint">Observer</code> di essere registrato alla ricezione di una comunicazione da parte di un oggetto <code class="prettyprint">Observable</code>, che, quando opportuno, comunica a tutti gli <code class="prettyprint">Observer</code> registrati una certa informazione.<br>
 
-In questo sprint si definiscono due 
+In questo sprint si definiscono due scopi di testing:
+<ol>
+    <li>corretta esecuzione della BoundaryWalk</li>
+    <li>corretta esecuzione dei comandi start, stop e resume</li>
+</ol>
+
+Si definisce il nuovo linguaggio <b>emittedInfo</b> allo scopo di standardizzare i possibili messaggi che i componenti <code class="prettyprint">Observer</code> dovranno essere in grado di gestire, il primo insieme di messaggi (per l'analisi della BoundaryWalk) &egrave;:
+<ol>
+    <li><b>robot-stepdone</b>: step</li>
+    <li><b>robot-turnLeft</b>: svolta a sinistra</li>
+    <li><b>robot-turnRight</b>: svolta a destra</li>
+    <li><b>robot-collision</b>: collisione con un ostacolo</li>
+    <li><b>robot-athomebegin</b>: in posizione HOME all'inizio</li>
+    <li><b>robot-athomeend</b>: in posizione HOME alla fine</li>
+</ol>
+mentre il secondo insieme &egrave; composto da:
+<ol>
+    <li><b>robot-moving</b>: robot inizia a muoversi</li>
+    <li><b>robot-stopped</b>: robot ha <i>eseguito</i> il comando <code class="prettyprint">stop</code></li>
+    <li><b>robot-resumed</b>: robot ha <i>eseguito</i> il comando <code class="prettyprint">resume</code></li>
+</ol>
+
+<h3 id="testbw">BoundaryWalk</h3>
+Il componente che si occupa della rilevazione della BoundaryWalk compila una rappresentazione delle mosse eseguite, analizzando i messaggi ricevuti dal componente <code class="prettyprint">Observable</code>.<br>
+Il formato di questa rappresentazione evidenzia le collisioni e le svolte effettuate dal robot, per permettere all'unit&agrave; di test di calcolare quanti step sono stati effettuati tra due svolte: il test verifica che il numero di step sia uguale per due sezioni di step <i>separate da due svolte a sinistra</i>.
+
+<h3 id="testss">Start-Stop-Resume</h3>
+Il componente che si occupa di rilevare la corretta reazione del robot ai comandi start, stop e resume
 
 
-un componente Observable emette degli eventi e i componenti che sono interessati agli eventi di un certo elemento si iscrivono alla ricezione di notifiche allo scatenarsi di un particolare evento?<br>
-Come pu&ograve; un Observer accorgersi dell'evento?<br>
-L'elemento Observable mantiene una lista degli Observer ad esso iscritti e quando viene generato un evento viene chiamato un metodo notifyObservers che effettua opportune chiamate a metodi degli Observer che reagiscono all'evento. (Interfacce Observable e Observer?)
+
+
 </div>
 
 <h2>Project</h2>
