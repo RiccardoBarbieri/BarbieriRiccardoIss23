@@ -96,12 +96,11 @@ mentre il secondo insieme &egrave; composto da:
 </ol>
 
 <h3 id="testbw">BoundaryWalk</h3>
-Il componente che si occupa della rilevazione della BoundaryWalk compila una rappresentazione delle mosse eseguite, analizzando i messaggi ricevuti dal componente <code class="prettyprint">Observable</code>.<br>
+Il componente si occupa della rilevazione della BoundaryWalk, compila una rappresentazione delle mosse eseguite, analizzando i messaggi ricevuti dal componente <code class="prettyprint">Observable</code>.<br>
 Il formato di questa rappresentazione evidenzia le collisioni e le svolte effettuate dal robot, per permettere all'unit&agrave; di test di calcolare quanti step sono stati effettuati tra due svolte: il test verifica che il numero di step sia uguale per due sezioni di step <i>separate da due svolte a sinistra</i>.
 
 <h3 id="testss">Start-Stop-Resume</h3>
-Il componente che si occupa di rilevare la corretta reazione del robot ai comandi start, stop e resume
-
+Il componente che si occupa di rilevare i comandi start, stop e resume, come il componente relativo alla BoundaryWalk questo compile una storia dei comandi ricevuti dall'applicazione e mette a disposizioni metodi per 
 
 
 
