@@ -65,7 +65,6 @@ bc{
 	font-size: 90%;
 	font-weight: bold;
     color: #990000;
-	background-color: #fcf8c7;
 }
 ks{
 	font-family: "Arial";
@@ -130,7 +129,6 @@ h5 {
 div.req{
 	background-color: #d9ffb3;
     font-size: 18px;
-	width: 700px;
     border: 3px solid green;
     padding: 15px;
     margin: 10px;

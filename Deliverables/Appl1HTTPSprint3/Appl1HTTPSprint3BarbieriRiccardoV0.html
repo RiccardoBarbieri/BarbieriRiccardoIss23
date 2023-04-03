@@ -1,12 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
-    <!--
-<link rel="stylesheet" type="text/css" href="../css/issStyle1.css">
-<script type="text/javascript" src="../css/issStyle.js"></script>
--->
 
+<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
 <link rel="stylesheet" href="../../_static/template.css">
-    
+<link rel="stylesheet" href="../../_static/mine.css">
+   
 <head>
 <title>TemplateToFill</title>
 </head>
@@ -20,16 +18,46 @@
 <div class="body"> 
 
 <h2>Introduction</h2>
- 
- 
+<div class="remark">
+In questo documento si tratter&agrave; l'analisi e lo sviluppo dello sprint 3 dell'applicazione HTTP BoundaryWalk.<br>
+
+Dallo sprint 2 si &egrave; ottenuta la seguente architettura:<br>
+<img src="https://iss.riccardohost.space/_images/Appl1HTTPSprint2Final.png" width="auto" height="200em"></img>
+<br>
+La classe <code class="prettyprint">unibo.appl1.http.Appl1Core</code> realizza la logica applicativa ed &egrave; resa osservabile al fine di accettare <code class="prettyprint">Observer</code> sui quali si basa la strategia di testing.
+
+</div>
+
 <h2>Requirements</h2>
 
- 
 <div class="remark">
+
+<div class="req">
+<ol>
+    <li>Realizzazione di <code class="prettyprint">Appl1</code> come ente attivo (<b>actor</b>) in grado di ricevere messaggi tramite un protocollo <b>P</b>, interpretare i messaggi ricevuti convertendoli in comandi a <code class="prettyprint">unibo.appl1.http.Appl1Core</code></li>
+    <li>Realizzazione della <code class="prettyprint">CmdConsole</code> come entit&agrave; attiva che, a seguito di interazioni con umani, invia comandi a <code class="prettyprint">Appl1</code> utilizzando il protocollo <b>P</b></li>    
+</ol>
+
+</div> 
+
+<bc>Goal dello sprint 3:</bc><br>
+<ol>
+    <li>Affrontare il progetto e la realizzazione della CmdConsole remota.</li>
+    <li>Affrontare il progetto e la realizzazione di un sistema distribuito.</li>
+</ol>
+
 </div>
 
 <h2>Requirement analysis</h2>
+
+<ul>
+    <li>Il sistema deve essere in grado di operare in maniera distribuita</li>
+    <li>I componenti del sistema comunicheranno tramite scambio di messaggi</li>    
+</ul>
+
+
  
+La <code class="prettyprint">CmdConsole</code>, in qualit&agrave; di strumento di input, deve essere indipendente da dettagli applicativi, in quanto l'applicazione potrebbe ricevere messaggi da dispositivi diversi.
 
 <h2>Problem analysis</h2>
  
