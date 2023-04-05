@@ -40,7 +40,7 @@ La classe <code class="prettyprint">unibo.appl1.http.Appl1Core</code> realizza l
 
 </div> 
 
-<bc>Goal dello sprint 3:</bc><br>
+<bc>Goals dello sprint 3:</bc><br>
 <ol>
     <li>Affrontare il progetto e la realizzazione della CmdConsole remota.</li>
     <li>Affrontare il progetto e la realizzazione di un sistema distribuito.</li>
@@ -50,17 +50,33 @@ La classe <code class="prettyprint">unibo.appl1.http.Appl1Core</code> realizza l
 
 <h2>Requirement analysis</h2>
 
+<div class="remark">
+    
 <ul>
-    <li>Il sistema deve essere in grado di operare in maniera distribuita</li>
-    <li>I componenti del sistema comunicheranno tramite scambio di messaggi</li>    
+    <li><bc>KEYPOINT-Req1</bc> Il sistema deve essere in grado di operare in maniera distribuita</li>
+    <li><bc>KEYPOINT-Req2</bc> I componenti del sistema saranno attori comunicanti tramite scambio di messaggi</li>    
+    <li><bc>KEYPOINT-Req3</bc> Gli attori dovranno essere indipendenti dal protocollo <b>P</b> utilizzato per la comunicazione</li>
+    
 </ul>
 
-
- 
-La <code class="prettyprint">CmdConsole</code>, in qualit&agrave; di strumento di input, deve essere indipendente da dettagli applicativi, in quanto l'applicazione potrebbe ricevere messaggi da dispositivi diversi.
+</div>
 
 <h2>Problem analysis</h2>
- 
+
+<div class="remark">
+In questo sprint si rimarca l'utilizzo del <i>inversione delle dipendenze</i>, che consiste nell'assicurare che componenti di alto livello siano indipendenti dall'implementazione di componenti di basso livello, ad esempio:<br>
+
+
+<bc>KEYPOINT-AP1</bc><br>
+La <code class="prettyprint">CmdConsole</code>, in qualit&agrave; di strumento di input, deve essere indipendente da dettagli applicativi, in quanto l'applicazione potrebbe ricevere messaggi da dispositivi diversi.<br>
+
+
+
+
+<bc>KEYPOINT-AP2</bc>
+
+</div>
+
 
 <h2>Test plans</h2> 
 
