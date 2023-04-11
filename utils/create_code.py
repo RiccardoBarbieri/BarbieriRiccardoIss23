@@ -6,8 +6,8 @@ from typing import List
 
 file_start = """<html>
 <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
-<link rel="stylesheet" href="../_static/template.css">
-<link rel="stylesheet" href="../_static/mine.css">"""
+<link rel="stylesheet" href="_static/template.css">
+<link rel="stylesheet" href="_static/mine.css">"""
 
 post = '</code></pre>\n</div>'
 
@@ -15,7 +15,7 @@ file_end = '</html>'
 
 output_file = 'code.html'
 
-sys.argv += ['/home/riccardoob/repoIss23/BarbieriRiccardoIss23/Appl1Sprint2/application1/src/main/java/unibo/']
+# sys.argv += ['/home/riccardoob/repoIss23/BarbieriRiccardoIss23/Appl1Sprint2/application1/src/main/java/unibo/']
 
 def get_javas(path: Path) -> List[Path]:
     files = []
