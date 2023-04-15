@@ -36,6 +36,7 @@ public class Appl1Core extends java.util.Observable implements IAppl1Core {
     }
 
     protected void readConfigFromFile() throws Exception {
+        CommUtils.outgreen(System.getProperty("user.dir"));
         File cfgfile = new File("sprint3Config.json");
         BufferedReader reader = new BufferedReader(new FileReader(cfgfile));
         String currentLine = reader.readLine();

@@ -25,9 +25,17 @@ dependencies {
 
     //CUSTOM unibo
     implementation name: 'unibo.basicomm23-1.0'
+    implementation name: '2p301'
+    implementation name: 'actors23-1.0'
+
+    //SOCKET.IO (for WEnv Sprint3WS)
+    implementation group: 'javax.websocket', name: 'javax.websocket-api', version: '1.1'
+    //javax.websocket api is only the specification
+    implementation group: 'org.glassfish.tyrus.bundles', name: 'tyrus-standalone-client', version: '1.9'
+
 }
 
  application {
     // Define the main class for the application.
-    mainClass = 'unibo.Application1'
+     mainClass = 'unibo.appl1.http.Appl1HTTPSprint3'
 }
