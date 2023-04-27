@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+<link rel="stylesheet" href="../../_static/template.css">
+<link rel="stylesheet" href="../../_static/mine.css">
+
+<head>
+<title>TemplateToFill</title>
+</head>
+
+<body>
+
+<div id="top">
+    <h1>LABORATORIO DI INGEGNERIA DEI SISTEMI SOFTWARE <font size="5"></font> </h1>
+</div>
+
+<div class="body">
+
+<h2>Introduction</h2>
+
+<div class="remark">
+    In questo documento si tratta l'analisi dell'aggiunta della funzionalit&agrave; di stop del Virtual Robot in seguito al rilevamento da uno dei sonarr nella scena WEenv.
+</div>
+
+<h2>Requirements</h2>
+
+<div class="remark">
+<div class="req">
+Impostare un sistema software che permette ad un utente umano di inviare, mediante una Console, comandi:
+<ul>
+<li><span class="blue">start</span>: per indurre a <a href="https://iss.riccardohost.space/VirtualRobot23.html#virtualrobot23">VirtualRobot</a> a percorrare il bordo perimetrale (libero da ostacoli) della stanza rappresentata ne <a href="https://iss.riccardohost.space/VirtualRobot23.html#la-scena-di-wenv">La scena di WEnv</a></li>
+    <li><span class="blue">stop</span>: per bloccare il robot</li>
+    <li><span class="blue">resume</span>: per riattivare il robot</li>
+    <li><span class="blue">getPath</span>: per ottenere dal robot informazioni sul cammino percorso</li>
+</ul>
+Inoltre è richiesto di:
+<ul>
+    <li>fare in modo che il robot <span class="blue">si fermi per un tempo prefissato</span> (2sec) ogni volta che esso viene rilevato da uno dei <span class="brown">Sonar</span> cablati nelle pareti della stanza;</li>
+    <li>prefigurare il tempi previsti per lo sviluppo e i tempi effettivi necessari per il completamento del sistema;</li>
+    <li>indicare il modo con cui si ritiene opportuno distribuire il prodotto finale.</li>
+</ul>
+
+</div>
+
+<bc>Goals di questo sprint</bc>
+<ol>
+    <li>Analizzare una possibile soluzione al problema dello stop del robot al rilevamento dal sonar</li>
+    <li>Stimare i tempi di implementazione della nuova funzionalit&agrave; e dei requisiti che emergono</li>
+</ol>
+
+</div>
+
+<h2>Requirement analysis</h2>
+
+<div class="remark">
+<ul>
+    <li><bc>KEYPOINT-ReqNF1</bc> Un <b>sonar</b> &egrave; un componente della scena WEnv che invia una comunicazione quando rileva il passaggio del robot</li>
+    <li><bc>KEYPOINT-ReqF2</bc> Il sistema deve comunicare al robot di fermarsi non appena viene ricevuto il messaggio di rilevamento del sonarr</li>
+    <li><bc>KEYPOINT-ReqNF3</bc> La durata dello stop del robot &egrave; prefissata, &egrave; tuttvia conveniente prevedere un metodo per la configurazione del parametro</li>
+</ul>
+    
+</div>
+
+<h2>Problem analysis</h2>
+
+<div class="remark">
+    Questo sprint si baser&agrave; sulla seguente architettura logica, definita in sprint precedenti:<br>
+<img height="200em" src="https://iss.riccardohost.space/_images/Appl1FinalArchitecture.png"><br>
+
+
+<bc>KEYPOINT-AP1</bc><br>
+Il movimento minimo che il robot  pu&ograve; effettuare consiste nello <b>step</b>, definito come azione <i>atomica</i>: in quanto tale non pu&ograve; essere interrotto, si &egrave; deciso quindi di gestire lo stop dovuto al sonar con il comando di stop gi&agrave; implementato, che tiene in considerazione dell'atomicit&agrave; dello step.<br>
+
+<bc>KEYPOINT-AP2</bc><br>
+Un messaggio del sonar ha la seguente sintassi:<br>
+<div class="highlight">
+<pre><code class="prettyprint">{"sonarName": "<sonarName>", "distance": <int>, "axis": "AXIS"}
+AXIS = x | y  //a seconda dell'orientamento del sonar
+</code></pre>
+</div>
+Questo messaggio invia informazioni ulteriori relative al contesto del sonar e alla distanza del robot dal sonar, oltre a un identificativo del componente.<br><br>
+
+
+Per gestire l'effettivo invio del comando di stop a seguito del messaggio del sonar, si &egrave; deciso di implementare un nuovo observer, che, alla ricezione di un messaggio di sua competenza, comunicher&agrave; al core dell'applicazione di inviare un comando di <b>stop</b>; dopo il tempo prefissato di durata della fermata, invier&agrave; al core l'indicazione di inviare al robot un comando <b>resume</b> per riprendere il movimento.<br>
+
+<bc>KEYPOINT-AP3</bc><br>
+Si ridefiniscono il core dell'applicazione e il nuovo <code class="prettyprint">SonarObserver</code> come attori, che estendono il componente <code class="prettyprint">unibo.actors23.ActorBasic23</code>.
+
+<h3>Piano di lavoro</h3>
+<ol>
+    <li>Refactoring del core dell'applicazione come attore <b>WORKTIME</b>: 3 ore</li>
+    <li>Implementazione del nuovo observer attore <code class="prettyprint">SonarObserverActor</code> <b>WORKTIME</b>: 2 ore</li>    
+</ol>
+
+</div>
+
+<h2>Test plans</h2>
+
+<div class="remark">
+</div>
+
+<h2>Project</h2>
+
+<div class="remark">
+</div>
+
+<h2>Testing</h2>
+
+<div class="remark">
+</div>
+
+<h2>Deployment</h2>
+
+<div class="remark">
+Per il deployment dell'applicazione si definisce una immagine di docker che racchiude il core dell'applicazione e la console.<br>
+
+Una soluzione alternativa consiste nell'utilizzo di servizi cloud-based come <i>Azure Service Fabric</i> per il deployment di servizi actor-based, mirando a ridurre i costi di mantenimento di infrastruttura on-premise: discutere con il cliente per valutare pro e contro dei due approcci.
+</div>
+
+<h2>Maintenance</h2>
+
+<div class="remark">
+</div>
+<!-- USEFUL
+<table style="width:100%" border="1">
+<tr>
+<td style="width:50%">
+</td>
+<td></td>
+</tr>
+</table>
+-->
+	      	
+<br/><br/> 	
+</div>
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:60%;text-align:left;color:white">
+By Riccardo Barbieri email: riccardo.barbieri11@studio.unibo.it,
+<img src="../../_images/fototessera.jpg" alt="mbot" width="15%" height="15%">
+GIT repo: https://github.com/RiccardBarbieri/BarbieriRiccardoIss23
+</div>
+</body>
+</html>

@@ -9,3 +9,9 @@ pre {
     border-right: none;
 }
 .highlight { background: #eeffcc; }
+
+.blue {
+    color: blue;
+    font-style: italic;
+    font-weight: 0;
+}
