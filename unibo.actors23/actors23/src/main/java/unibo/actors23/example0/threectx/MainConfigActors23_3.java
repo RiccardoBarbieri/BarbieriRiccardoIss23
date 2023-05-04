@@ -5,7 +5,11 @@ import unibo.basicomm23.utils.CommUtils;
 
 public class MainConfigActors23_3 {
 
-    public void configureTheSystem(){
+    public static void main(String[] args) {
+        new MainConfigActors23_3().configureTheSystem();
+    }
+
+    public void configureTheSystem() {
         //System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "ERROR");
 
         String userDir = System.getProperty("user.dir"); //C:\Didattica2023\issLab2023
@@ -16,9 +20,6 @@ public class MainConfigActors23_3 {
                 "actors23/src/main/java/unibo/actors23/example0/threectx/exampleActor23_3.pl",
                 "actors23/src/main/java/unibo/actors23/example0/sysRules.pl");
         //Qui il main perde il controllo ...
-    }
-    public static void main(String[] args ){
-        new MainConfigActors23_3().configureTheSystem();
     }
 }
 

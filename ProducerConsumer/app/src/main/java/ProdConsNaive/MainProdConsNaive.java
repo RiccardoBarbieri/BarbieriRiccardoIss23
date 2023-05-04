@@ -7,7 +7,7 @@ Very long job ...
  */
 public class MainProdConsNaive {
 
-    public static void main(String[] args ){
+    public static void main(String[] args) {
         CommUtils.outblue("MainProdConsNaive | Please, do it yourself ...");
     }
 }

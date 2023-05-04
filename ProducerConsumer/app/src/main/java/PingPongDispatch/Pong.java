@@ -15,10 +15,10 @@ public class Pong extends ActorBasic23 {
     @Override
     protected void elabMsg(IApplMessage msg) throws Exception {
         //CommUtils.outgreen(name + " | elabMsg " + msg + " in:" + Thread.currentThread().getName());
-        if( msg.msgId().equals("hit")){  //dispatch from Ping
-            IApplMessage hitMsg = CommUtils.buildDispatch(name, "hit", "hitFrom"+name+msg.msgContent(), msg.msgSender());
-                CommUtils.outgreen(name + " | SENDS " + hitMsg + " in:" + Thread.currentThread().getName());
-                sendMsg(hitMsg);
+        if (msg.msgId().equals("hit")) {  //dispatch from Ping
+            IApplMessage hitMsg = CommUtils.buildDispatch(name, "hit", "hitFrom" + name + msg.msgContent(), msg.msgSender());
+            CommUtils.outgreen(name + " | SENDS " + hitMsg + " in:" + Thread.currentThread().getName());
+            sendMsg(hitMsg);
         }
     }
 }

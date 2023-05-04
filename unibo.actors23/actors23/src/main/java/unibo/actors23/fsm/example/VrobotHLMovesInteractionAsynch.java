@@ -11,25 +11,27 @@ import unibo.basicomm23.ws.WsConnection;
 
 import java.util.concurrent.BlockingQueue;
 
-public class VrobotHLMovesInteractionAsynch extends ApplAbstractObserver implements  IVrobotMovesAsynch {
+public class VrobotHLMovesInteractionAsynch extends ApplAbstractObserver implements IVrobotMovesAsynch {
     protected Interaction wsCommSupport;
     protected int elapsed = 0; //modified by update
     protected String moveResult = null;  //for observer part
     protected BlockingQueue<String> msgQueue;
-    boolean doingStepAsynch = false;  //vedi update
     protected int threadCount = 1;
     protected boolean tracing = Actor23Utils.trace;
     protected ActorBasic23 owner;
+    boolean doingStepAsynch = false;  //vedi update
     //protected String msgToApplStr = "msg(sysinfo, disptach, SENDER, RECEIVER, CONTENT, SEQNUM)";
     //protected IApplMessage msgToAppl = CommUtils.buildDispatch("");
+    //  Timer part
+    private Long timeStart = 0L;
 
     public VrobotHLMovesInteractionAsynch(Interaction wsCommSupport, ActorBasic23 owner) {
         this.wsCommSupport = wsCommSupport;
-        this.owner         = owner;
+        this.owner = owner;
 
         ((WsConnection) wsCommSupport).addObserver(this);
         CommUtils.aboutThreads("     VrobotHLMovesInteractionAsynch |");
-        if( tracing ) CommUtils.outblue(
+        if (tracing) CommUtils.outblue(
                 "     VrobotHLMovesInteractionAsynch | CREATED in "
                         + Thread.currentThread().getName());
     }
@@ -37,9 +39,11 @@ public class VrobotHLMovesInteractionAsynch extends ApplAbstractObserver impleme
     public void setMsgQueue(BlockingQueue<String> msgQueue) {
         this.msgQueue = msgQueue;
     }
-    public void setTracing( boolean v ){
+
+    public void setTracing(boolean v) {
         tracing = v;
     }
+
     public Interaction getConn() {
         return wsCommSupport;
     }
@@ -47,7 +51,7 @@ public class VrobotHLMovesInteractionAsynch extends ApplAbstractObserver impleme
     @Override
     public boolean step(int time) throws Exception {
         doingStepAsynch = false;
-        if( tracing ) CommUtils.outyellow("     VrobotHLMovesInteractionAsynch | step time="
+        if (tracing) CommUtils.outyellow("     VrobotHLMovesInteractionAsynch | step time="
                 + time + " " + Thread.currentThread().getName());
         String cmd = VrobotMsgs.forwardcmd.replace("TIME", "" + time);
         String result = request(cmd);
@@ -82,22 +86,22 @@ public class VrobotHLMovesInteractionAsynch extends ApplAbstractObserver impleme
         startTimer();
         wsCommSupport.forward(VrobotMsgs.forwardcmd.replace("TIME", "" + time));
     }
+// Observer part
 
     @Override
     public void halt() throws Exception {
-        if( tracing ) CommUtils.outgreen("     VrobotHLMovesInteractionAsynch | halt");
+        if (tracing) CommUtils.outgreen("     VrobotHLMovesInteractionAsynch | halt");
         wsCommSupport.forward(VrobotMsgs.haltcmd);
         CommUtils.delay(150); //wait for halt completion since halt on ws does not send answer
         //CommUtils.outgreen("     VrobotHLMovesInteractionAsynch | halt done " + moveResult );
     }
-// Observer part
 
     public String request(String msg) throws Exception {
         moveResult = null;
         //Invio fire-and.forget e attendo modifica di  moveResult da update
         startTimer();
         //if( tracing )
-            CommUtils.outblue("     VrobotHLMovesInteractionAsynch | request " + msg);
+        CommUtils.outblue("     VrobotHLMovesInteractionAsynch | request " + msg);
         wsCommSupport.forward(msg);
         synchronized (this) {
             while (moveResult == null) {
@@ -118,8 +122,8 @@ public class VrobotHLMovesInteractionAsynch extends ApplAbstractObserver impleme
             elapsed = getDuration();
 
             //if( tracing )
-                CommUtils.outyellow("     VrobotHLMovesInteractionAsynch | updateBasic:"
-                    +info + " elapsed=" + elapsed + " " + Thread.currentThread().getName());
+            CommUtils.outyellow("     VrobotHLMovesInteractionAsynch | updateBasic:"
+                    + info + " elapsed=" + elapsed + " " + Thread.currentThread().getName());
             JSONObject jsonObj = CommUtils.parseForJson(info);
             if (jsonObj == null) {
                 CommUtils.outred("     VrobotHLMovesInteractionAsynch | updateBasic ERROR Json:" + info);
@@ -132,7 +136,8 @@ public class VrobotHLMovesInteractionAsynch extends ApplAbstractObserver impleme
             }
             if (jsonObj.get("collision") != null) {
                 //Alla collision non faccio nulla: attendo moveForward-collision
-                if( tracing ) CommUtils.outyellow("     VrobotHLMovesInteractionAsynch | updateBasic collision detected ");
+                if (tracing)
+                    CommUtils.outyellow("     VrobotHLMovesInteractionAsynch | updateBasic collision detected ");
                 return;
             }
             if (jsonObj.get("endmove") != null) {
@@ -144,7 +149,6 @@ public class VrobotHLMovesInteractionAsynch extends ApplAbstractObserver impleme
                     moveResult = "" + endmove;
                     notifyAll();
                 }
-                return;
             }
         } catch (Exception e) {
             CommUtils.outred("     VrobotHLMovesInteractionAsynch | updateBasic ERROR:" + e.getMessage());
@@ -156,7 +160,7 @@ public class VrobotHLMovesInteractionAsynch extends ApplAbstractObserver impleme
         try {
             elapsed = getDuration();
             //if( tracing )
-                CommUtils.outyellow(
+            CommUtils.outyellow(
                     "     VrobotHLMovesInteractionAsynch | updateForAsynch:" + info + " elapsed=" + elapsed +
                             " " + Thread.currentThread().getName());
             JSONObject jsonObj = CommUtils.parseForJson(info);
@@ -184,32 +188,27 @@ public class VrobotHLMovesInteractionAsynch extends ApplAbstractObserver impleme
                 //CommUtils.outred("     VrobotHLMovesInteractionAsynch | updateForAsynch move=" + move);
                 //move moveForward-collision or moveBackward-collision
                 if (endmove) {
-                    String content="stepdone(" + elapsed + ")";
-                    IApplMessage msgToAppl = CommUtils.buildDispatch( "support","endMoveOk",content,owner.getName());
+                    String content = "stepdone(" + elapsed + ")";
+                    IApplMessage msgToAppl = CommUtils.buildDispatch("support", "endMoveOk", content, owner.getName());
                     //msgQueue.put(msgToAppl.toString() );
-                    Actor23Utils.sendMsg(msgToAppl,owner);
+                    Actor23Utils.sendMsg(msgToAppl, owner);
                 } else if (move.contains("interrupted")) {
                     String content = "stepfailed(" + elapsed + ", interrupt )";
-                    IApplMessage msgToAppl = CommUtils.buildDispatch( "support","endMoveKo",content,owner.getName());
+                    IApplMessage msgToAppl = CommUtils.buildDispatch("support", "endMoveKo", content, owner.getName());
                     //msgQueue.put(msgToAppl.toString());
-                    Actor23Utils.sendMsg(msgToAppl,owner);
-                }else if (move.contains("collision")) {
-                    String content="stepfailed(" + elapsed + ", collision )";
-                    IApplMessage msgToAppl = CommUtils.buildDispatch( "support","endMoveKo",content,owner.getName());
+                    Actor23Utils.sendMsg(msgToAppl, owner);
+                } else if (move.contains("collision")) {
+                    String content = "stepfailed(" + elapsed + ", collision )";
+                    IApplMessage msgToAppl = CommUtils.buildDispatch("support", "endMoveKo", content, owner.getName());
                     //msgQueue.put(msgToAppl.toString() );
-                    Actor23Utils.sendMsg(msgToAppl,owner);
+                    Actor23Utils.sendMsg(msgToAppl, owner);
                 }
                 //CommUtils.outred("     VrobotHLMovesInteractionAsynch | updateForAsynch END move=" + move);
-                return;
             }
         } catch (Exception e) {
             CommUtils.outred("     VrobotHLMovesInteractionAsynch | updateForAsynch ERROR:" + e.getMessage());
         }
     }
-
-
-    //  Timer part
-    private Long timeStart = 0L;
 
     public void startTimer() {
         elapsed = 0;
@@ -232,11 +231,11 @@ public class VrobotHLMovesInteractionAsynch extends ApplAbstractObserver impleme
                 doingStepAsynch = true;
                 try {
                     //CommUtils.outred("stepAsynch Thread starts " + Thread.currentThread().getName());
-                    if( tracing ) CommUtils.aboutThreads("stepAsynch new Thread | ");
+                    if (tracing) CommUtils.aboutThreads("stepAsynch new Thread | ");
                     startTimer(); //per getDuration()
                     wsCommSupport.forward(VrobotMsgs.forwardcmd.replace("TIME", "" + time));
                     String msg = msgQueue.take();  //Appl si blocca
-                    if( tracing ) CommUtils.outmagenta("%%% stepAsynch msg:" + msg);
+                    if (tracing) CommUtils.outmagenta("%%% stepAsynch msg:" + msg);
                     if (msg.contains("stepdone")) stepok.handle(msg);
                     else stepko.handle(msg);
                 } catch (Exception e) {
@@ -250,14 +249,14 @@ public class VrobotHLMovesInteractionAsynch extends ApplAbstractObserver impleme
     public void stepAsynch(int time) {
         doingStepAsynch = true;
         try {
-            if( tracing ) CommUtils.aboutThreads("stepAsynchActorLike | ");
+            if (tracing) CommUtils.aboutThreads("stepAsynchActorLike | ");
             startTimer(); //per getDuration()
             wsCommSupport.forward(VrobotMsgs.forwardcmd.replace("TIME", "" + time));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-        //Uso Method - NON VA: object is not an instance of declaring class
+    //Uso Method - NON VA: object is not an instance of declaring class
     /*
     public void stepAsynch(int time, Method stepOk, Method stepFail) throws Exception {
             //startTimer();

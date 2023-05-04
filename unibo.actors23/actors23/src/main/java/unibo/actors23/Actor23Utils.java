@@ -7,15 +7,16 @@ import alice.tuprolog.Theory;
 import unibo.basicomm23.interfaces.IApplMessage;
 import unibo.basicomm23.msg.ProtocolType;
 import unibo.basicomm23.utils.CommUtils;
+
 import java.io.FileInputStream;
 import java.lang.reflect.Constructor;
 import java.util.*;
 
 public class Actor23Utils {
+    public static boolean trace = false;
     protected static Prolog pengine = new Prolog();
     protected static Hashtable<String, ActorContext23> ctxsMap = new Hashtable<String, ActorContext23>();
     protected static String pfx = "    %%% ";
-    public static boolean trace = false;
 
     public static void showSystemConfiguration() {
         try {
@@ -58,9 +59,7 @@ public class Actor23Utils {
         String[] al = liststrRep.replace("[", "")
                 .replace("]", "").split(",");
         List<String> myList = new ArrayList<String>();
-        for (String s : al) {
-            myList.add(s);
-        }
+        Collections.addAll(myList, al);
         return myList;
     }
 
@@ -109,7 +108,6 @@ public class Actor23Utils {
     }
 
 
-
     public static ActorContext23 createTheContext(String ctx, String hostName) throws Exception {
         String ctxHost = solve("getCtxHost(" + ctx + ",H)", "H");
         String ctxPort = solve("getCtxPort(" + ctx + ",P)", "P");
@@ -154,7 +152,7 @@ public class Actor23Utils {
 
     public static void createActorsOfContext(ActorContext23 ctx) {
         try {
-            if(trace) CommUtils.outgray(pfx+"Actor23Utils | createActorsOfContext in:"+ ctx.name );
+            if (trace) CommUtils.outgray(pfx + "Actor23Utils | createActorsOfContext in:" + ctx.name);
             String actors = solve("getActorNames( A," + ctx.name + ")", "A");
             List<String> actorsList = strRepToList(actors);
             Iterator<String> iter = actorsList.iterator();
@@ -168,12 +166,13 @@ public class Actor23Utils {
         }
     }
 
-    public static void activateActorsInContext(ActorContext23 ctx){
+    public static void activateActorsInContext(ActorContext23 ctx) {
         Vector<String> actors = ctx.getLocalActorNames();
         Iterator<String> iter = actors.iterator();
         while (iter.hasNext()) {
             ActorBasic23 a = ctx.getActor(iter.next());
-            if( a.autostart ) a.activateAndStart(); else a.activate();
+            if (a.autostart) a.activateAndStart();
+            else a.activate();
         }
     }
 
@@ -190,21 +189,24 @@ public class Actor23Utils {
     }
 
     public static void sendMsg(IApplMessage msg, ActorBasic23 dest) throws Exception {
-          dest.msgQueue.put(msg); //attore locale
+        dest.msgQueue.put(msg); //attore locale
     }
+
     public static void sendMsg(IApplMessage msg, ActorContext23 ctx, String dest) throws Exception {
         ActorBasic23 destactor = ctx.getActor(dest);
-        if( destactor != null ) sendMsg(msg,destactor);
+        if (destactor != null) sendMsg(msg, destactor);
         else throw new Exception("sendMsg to non local actor:" + dest);
     }
 
-    public static void emitLocalEvent(IApplMessage ev, ActorContext23 ctx){
+    public static void emitLocalEvent(IApplMessage ev, ActorContext23 ctx) {
         ctx.propagateEventToActors(ev); //a tutti
     }
-    public static void emitLocalEvent(IApplMessage ev, ActorBasic23 actor){
+
+    public static void emitLocalEvent(IApplMessage ev, ActorBasic23 actor) {
         actor.emitLocal(ev);  //escluso actor
     }
-    public static void emitEvent(IApplMessage ev, ActorBasic23 actor){
+
+    public static void emitEvent(IApplMessage ev, ActorBasic23 actor) {
         actor.emit(ev); //invia anche a contesti remoti
     }
 }

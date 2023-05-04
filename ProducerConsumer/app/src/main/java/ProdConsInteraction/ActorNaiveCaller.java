@@ -14,28 +14,28 @@ public abstract class ActorNaiveCaller {
     protected String entry;
     protected boolean connected = false;
 
-    public ActorNaiveCaller(String name, ProtocolType protocol, String hostAddr, String entry){
-        this.name     = name;
+    public ActorNaiveCaller(String name, ProtocolType protocol, String hostAddr, String entry) {
+        this.name = name;
         this.protocol = protocol;
         this.hostAddr = hostAddr;
-        this. entry   = entry;
+        this.entry = entry;
     }
 
 
-    protected void connect(){
-        if( connected ) return;
-        connected   = true;
+    protected void connect() {
+        if (connected) return;
+        connected = true;
         connSupport = ConnectionFactory.createClientSupport23(protocol, hostAddr, entry);
         //CommUtils.outblue(name + " | connected client=" + connSupport);
     }
 
-    public void activate(){
-        new Thread(){
-            public void run(){
+    public void activate() {
+        new Thread() {
+            public void run() {
                 try {
                     connect();
                     body();
-                  } catch (Exception e) {
+                } catch (Exception e) {
                     CommUtils.outred("");
                 }
             }

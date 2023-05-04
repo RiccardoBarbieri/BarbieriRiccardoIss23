@@ -11,9 +11,9 @@ import unibo.basicomm23.interfaces.Interaction;
 import unibo.basicomm23.utils.CommUtils;
 
 public class ProducerCoap extends ActorBasicFsm23 {
-    private String item             = "";
     private final String continueId = "goon";
-    private Interaction coapconn  ;
+    private String item = "";
+    private Interaction coapconn;
 
     public ProducerCoap(String name, ActorContext23 ctx) {
         super(name, ctx);
@@ -24,53 +24,54 @@ public class ProducerCoap extends ActorBasicFsm23 {
         }
     }
 
-    protected  final IApplMessage prodMsg( String msgId, String content, String receiver )   {
-        return CommUtils.buildDispatch(name, msgId, content, receiver );
+    protected final IApplMessage prodMsg(String msgId, String content, String receiver) {
+        return CommUtils.buildDispatch(name, msgId, content, receiver);
     }
 
-    @State( name = "s0", initial=true)
-    @Transition( state = "produce"   )       //empty move
-    protected void s0( IApplMessage msg ) {
-        CommUtils.outblue(name + " | s0 "+msg  );
+    @State(name = "s0", initial = true)
+    @Transition(state = "produce")       //empty move
+    protected void s0(IApplMessage msg) {
+        CommUtils.outblue(name + " | s0 " + msg);
 
     }
 
-    @State( name = "produce" )
-    @Transition( state = "produce",  msgId = continueId, guard="notCompleted"  )
-    @Transition( state = "endWork" , msgId = continueId, guard="completed" )
-    protected void produce( IApplMessage inputmsg ) {
-        CommUtils.outyellow(name + " | produce "+ inputmsg  );
+    @State(name = "produce")
+    @Transition(state = "produce", msgId = continueId, guard = "notCompleted")
+    @Transition(state = "endWork", msgId = continueId, guard = "completed")
+    protected void produce(IApplMessage inputmsg) {
+        CommUtils.outyellow(name + " | produce " + inputmsg);
         //for( int i=1; i<= 3; i++ ) {  //CICLO => autoMsg
-            item = item + "a";
-            IApplMessage msg = prodMsg("prodinfo", item, "consumer");
-            CommUtils.outblue(name + " | produce " + item);
-            //this.forward(msg);
-            try {
-                coapconn.forward(msg);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        item = item + "a";
+        IApplMessage msg = prodMsg("prodinfo", item, "consumer");
+        CommUtils.outblue(name + " | produce " + item);
+        //this.forward(msg);
+        try {
+            coapconn.forward(msg);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         CommUtils.delay(1000);
-            //CICLO => transizione con guardia
-            IApplMessage msg1 = prodMsg(continueId, "ok", name); //automsg
-            this.forward(msg1);
+        //CICLO => transizione con guardia
+        IApplMessage msg1 = prodMsg(continueId, "ok", name); //automsg
+        this.forward(msg1);
 
     }
 
-    @State( name = "endWork" )
-    protected void endWork( IApplMessage msg ) {
-        CommUtils.outblue(name + " | endWork BYE" );
+    @State(name = "endWork")
+    protected void endWork(IApplMessage msg) {
+        CommUtils.outblue(name + " | endWork BYE");
         //System.exit(0);
     }
 
     @TransitionGuard
     protected boolean completed() {
         //CommUtils.outyellow("GUARD completed "  );
-        return item.length() >= 3 ;
+        return item.length() >= 3;
     }
+
     @TransitionGuard
     protected boolean notCompleted() {
         //CommUtils.outyellow("GUARD notCompleted "  );
-        return item.length() < 3 ;
+        return item.length() < 3;
     }
 }

@@ -15,8 +15,8 @@ public class Producer extends ActorBasic23 {
     @Override
     protected void elabMsg(IApplMessage msg) throws Exception {
         CommUtils.outblue(name + " | elabMsg " + msg + " in:" + Thread.currentThread().getName());
-        if( msg.msgId().equals("startcmd") && msg.msgContent().equals("start")){
-            IApplMessage infoEvent  = CommUtils.buildEvent(name, "info", "hello" );
+        if (msg.msgId().equals("sysstartcmd") && msg.msgContent().equals("start")) {
+            IApplMessage infoEvent = CommUtils.buildEvent(name, "info", "hello");
             CommUtils.outblue(name + " | SENDS " + infoEvent + " in:" + Thread.currentThread().getName());
             emit(infoEvent);
         }

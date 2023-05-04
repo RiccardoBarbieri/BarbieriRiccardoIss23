@@ -6,8 +6,8 @@ import unibo.basicomm23.msg.ApplMsgHandler;
 
 public abstract class ActorNaiveReceiver extends ApplMsgHandler {
 
-    public ActorNaiveReceiver(String name ){
-        super( name );
+    public ActorNaiveReceiver(String name) {
+        super(name);
     }
 
     //protected abstract void body() throws Exception;

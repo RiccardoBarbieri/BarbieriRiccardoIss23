@@ -14,9 +14,9 @@ public class DataCleaner extends ActorBasic23 {
     @Override
     protected void elabMsg(IApplMessage msg) throws Exception {
         //CommUtils.outgray(name + "msg=" + msg);
-        int n = Integer.parseInt( msg.msgContent() );
-        if( n % 2 == 0 ) { //elimino i dispari
-            IApplMessage  event = CommUtils.buildEvent(name, "data", "" + n);
+        int n = Integer.parseInt(msg.msgContent());
+        if (n % 2 == 0) { //elimino i dispari
+            IApplMessage event = CommUtils.buildEvent(name, "data", "" + n);
             emitLocalStreamEvent(event);
         }
     }
