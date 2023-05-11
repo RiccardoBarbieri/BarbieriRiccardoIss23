@@ -4,6 +4,6 @@ Context ctx1 ip [ host= "pluto" port= 22 ]
 
 QActor a0 context ctx1 {
 	State s0 initial {
-		printCurrentMessage
+		printCurrentMessage color
 	}
 } 
