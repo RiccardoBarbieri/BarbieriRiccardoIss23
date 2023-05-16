@@ -16,7 +16,7 @@ Reply stepfailed   : stepfailed(DURATION, CAUSE)
 Event  sonardata   : sonar( DISTANCE ) 	     
 Event obstacle     : obstacle(X) 
 
-Request engage        : engage(ARG)	
+Request engage        : engage(ARG)
 Reply   engagedone    : engagedone(ARG)
 Reply   engagerefused : engagerefused(ARG)
 
@@ -127,7 +127,7 @@ QActor basicrobot context ctxbasicrobot{
 	State execcmd{
 		printCurrentMessage
 			onMsg( cmd : cmd(MOVE) ){
-	  			//activate the motors  
+	  			//activate the motors   
 	  			[# CurrentMove = payloadArg(0) #]
 				run uniborobots.robotSupport.move( payloadArg(0 ) )
 				updateResource [# "moveactivated(${payloadArg(0)})" #]
