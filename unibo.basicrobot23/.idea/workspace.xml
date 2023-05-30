@@ -5,22 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4c3c3110-410d-4cbf-9548-c0723381ed26" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/kotlinc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/resourceHashesCache.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/unibo.basicrobot23.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../qakdemo23/src/it/unibo/ctxcalled/MainCtxcalled.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../qakdemo23/src/it/unibo/ctxcalled/MainCtxcalled.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../qakdemo23/src/it/unibo/ctxcallers/MainCtxcallers.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../qakdemo23/src/it/unibo/ctxcallers/MainCtxcallers.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../qakdemo23/src/it/unibo/ctxdemocodedqactor/MainCtxdemocodedqactor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../qakdemo23/src/it/unibo/ctxdemocodedqactor/MainCtxdemocodedqactor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../qakdemo23/src/it/unibo/ctxdemoreq/MainCtxdemoreq.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../qakdemo23/src/it/unibo/ctxdemoreq/MainCtxdemoreq.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Api_basicrobot23.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Api_basicrobot23.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/basicrobot.qak" beforeDir="false" afterPath="$PROJECT_DIR$/src/basicrobot.qak" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,7 +85,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/home/riccardoob/repoIss23/BarbieriRiccardoIss23/unibo.basicrobot23",
+    "last_opened_file_path": "/home/riccardoob/repoIss23/BarbieriRiccardoIss23/unibo.radarsystemqak23",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -198,6 +187,7 @@
       <option name="presentableId" value="Default" />
       <updated>1654414760896</updated>
       <workItem from="1683826822259" duration="1077000" />
+      <workItem from="1685021254757" duration="1352000" />
     </task>
     <servers />
   </component>

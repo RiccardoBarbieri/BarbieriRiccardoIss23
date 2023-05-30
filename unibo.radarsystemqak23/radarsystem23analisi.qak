@@ -1,0 +1,83 @@
+//componenti:
+// - RadarDisplay
+// - Sonar
+// - Led
+
+//Attori
+// - RadarDisplayActor
+// - SonarActor
+// - LedActor
+// - ControllerActors
+
+System radarsystem
+
+Dispatch sonaractivate		: info(ARG)
+Dispatch sonardeactivate	: info(ARG)
+Dispatch ledCmd				: ledCmd(ONOFF)
+Dispatch polar				: polar(D,A)
+Event sonardata				: distance(D)
+
+Context ctx1 ip [host="localhost" port=8045]
+
+QActor radar context ctx1 {
+	
+	State s0 initial {
+		println("init") color blue
+	}
+	Transition t0 whenMsg polar -> display
+	
+	State display {
+		onMsg(polar : polar(D, A)) {
+			println("radar | POSITION (${payloadArg(0)}, ${payloadArg(1)})") color blue
+		}
+	}
+	Transition t0 whenMsg polar -> display
+	
+}
+
+QActor led context ctx1 {
+	
+	State s0 initial {
+		println("init") color blue
+	}
+	Transition t0 whenMsg ledCmd -> onoff
+	
+	State onoff {
+		onMsg(ledCmd : ledCmd(ONOFF)) {
+			println("led | STATE ${payloadArg(0)}") color blue
+		}
+	}
+	Transition t0 whenMsg ledCmd -> onoff
+}
+
+QActor sonar context ctx1 {
+	
+	State s0 initial {
+		println("init") color blue
+	}
+	Goto send
+	
+	State send {
+		emit sonardata : distance(25)
+	}
+	
+}
+ 
+QActor controller context ctx1 {
+	
+	State s0 initial {
+		println("init") color blue
+	}
+	Transition t0 whenEvent sonardata -> handle
+	
+	State handle {
+		printCurrentMessage 
+		onMsg(sonardata : distance(D)) {
+			[# var D = payloadArg(0).toInt() #]
+			println("controller | DISTANCE ${payloadArg(0)}")
+			
+			forward radar -m polar : polar($D, 90)
+			forward led -m ledCmd : ledCmd(on)
+		}
+	}
+}
