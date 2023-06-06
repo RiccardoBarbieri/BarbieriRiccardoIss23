@@ -26,10 +26,12 @@ class Basicrobot ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 		  var CurrentMove   = "unkknown"
 		  var StepSynchRes  = false
 		  var Owner         = "unkknown"
+		  //val planner       = unibo.planner23.Planner23Util() 
 		  
 		  fun checkOwner() : Boolean {
-		  	CommUtils.outblue("                    checkOwner $Owner ${currentMsg}")
-		  	return ( currentMsg.msgContent().contains( Owner ) || currentMsg.isEvent() )
+		  	if( currentMsg.isEvent()  ) return true
+		  	CommUtils.outblue("checkOwner $Owner ${currentMsg}")
+		  	return ( currentMsg.msgSender() == Owner) 
 		  }
 		return { //this:ActionBasciFsm
 				state("ss0") { //this:State
@@ -38,19 +40,36 @@ class Basicrobot ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 						 	   
 						discardMessages = true
 						delegate("engage", "engager") 
-						CommUtils.outblack("basicrobot | STARTS")
+						delegate("disengage", "engager") 
+						delegate("doplan", "planexec") 
+						delegate("setrobotstate", "robotposendosimbiotico") 
+						delegate("moverobot", "robotposendosimbiotico") 
+						delay(1000) 
+						CommUtils.outblack("basicrobot | STARTING ... ")
 						uniborobots.robotSupport.create(myself ,"basicrobotConfig.json" )
 						 RobotType = uniborobots.robotSupport.robotKind  
+						delay(2000) 
 						uniborobots.robotSupport.move( "a"  )
 						uniborobots.robotSupport.move( "d"  )
 						updateResourceRep( "basicrobot(started)"  
 						)
+						delay(1000) 
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t04",targetState="work",cond=whenDispatch("engaged"))
+					 transition( edgeName="goto",targetState="waitForOwner", cond=doswitch() )
+				}	 
+				state("waitForOwner") { //this:State
+					action { //it:State
+						CommUtils.outblack("basicrobot  | Waiting engage request ...  ")
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition(edgeName="t02",targetState="work",cond=whenDispatch("engaged"))
 				}	 
 				state("work") { //this:State
 					action { //it:State
@@ -61,28 +80,30 @@ class Basicrobot ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								 Owner  = payloadArg(0)  
 						}
-						CommUtils.outblack("basicrobot  | waiting .................. ")
+						CommUtils.outblack("basicrobot  | waiting, working for $Owner ... ")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t05",targetState="doStep",cond=whenRequest("step"))
-					transition(edgeName="t06",targetState="execcmd",cond=whenDispatchGuarded("cmd",{ checkOwner()   
-					}))
-					transition(edgeName="t07",targetState="endwork",cond=whenDispatchGuarded("end",{ checkOwner()   
-					}))
+					 transition(edgeName="t03",targetState="doStep",cond=whenRequest("step"))
+					transition(edgeName="t04",targetState="execcmd",cond=whenDispatch("cmd"))
+					transition(edgeName="t05",targetState="endwork",cond=whenDispatch("end"))
+					transition(edgeName="t06",targetState="waitForOwner",cond=whenDispatch("disengaged"))
+					transition(edgeName="t07",targetState="work",cond=whenDispatch("engaged"))
 				}	 
 				state("execcmd") { //this:State
 					action { //it:State
 						CommUtils.outcyan("$name in ${currentState.stateName} | $currentMsg | ${Thread.currentThread().getName()} n=${Thread.activeCount()}")
 						 	   
-						if( checkMsgContent( Term.createTerm("cmd(MOVE)"), Term.createTerm("cmd(MOVE)"), 
+						if(    checkOwner()  
+						 ){if( checkMsgContent( Term.createTerm("cmd(MOVE)"), Term.createTerm("cmd(MOVE)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								 CurrentMove = payloadArg(0)  
 								uniborobots.robotSupport.move( payloadArg(0)  )
 								updateResourceRep( "moveactivated(${payloadArg(0)})"  
 								)
+						}
 						}
 						//genTimer( actor, state )
 					}
@@ -101,8 +122,8 @@ class Basicrobot ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 								updateResourceRep( "step(${StepTime})"  
 								)
 						}
-						StartTime = getCurrentTime()
 						CommUtils.outblack("basicrobot | doing doStep StepTime=$StepTime  ")
+						StartTime = getCurrentTime()
 						 StepSynchRes = uniborobots.robotSupport.dostep( StepTime )  
 						//genTimer( actor, state )
 					}
@@ -132,17 +153,20 @@ class Basicrobot ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 				}	 
 				state("stepKo") { //this:State
 					action { //it:State
+						Duration = getDuration(StartTime)
 						CommUtils.outcyan("$name in ${currentState.stateName} | $currentMsg | ${Thread.currentThread().getName()} n=${Thread.activeCount()}")
 						 	   
-						Duration = getDuration(StartTime)
 						uniborobots.robotSupport.move( "h"  )
-						 var TunedDuration   =  ((Duration * 0.80)).toLong()    
-						CommUtils.outblack("basicrobot | stepFail duration=$Duration  TunedDuration=$TunedDuration")
-						uniborobots.robotSupport.move( "s"  )
+						 var TunedDuration   = StepTime - ((Duration * 0.80)).toLong()    
+						CommUtils.outmagenta("basicrobot | stepKo $StepTime  duration=$Duration  TunedDuration=$TunedDuration")
+						if(  TunedDuration > 30  
+						 ){uniborobots.robotSupport.move( "s"  )
 						delay(TunedDuration)
 						uniborobots.robotSupport.move( "h"  )
 						updateResourceRep( "stepFail($Duration)"  
 						)
+						delay(300) 
+						}
 						answer("step", "stepfailed", "stepfailed($Duration,obst)"   )  
 						//genTimer( actor, state )
 					}
@@ -153,9 +177,10 @@ class Basicrobot ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 				}	 
 				state("endwork") { //this:State
 					action { //it:State
+						CommUtils.outcyan("$name in ${currentState.stateName} | $currentMsg | ${Thread.currentThread().getName()} n=${Thread.activeCount()}")
+						 	   
 						updateResourceRep( "basicrobot(end)"  
 						)
-						terminate(1)
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002

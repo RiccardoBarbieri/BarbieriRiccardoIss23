@@ -24,15 +24,16 @@ class Engager ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sc
 		return { //this:ActionBasciFsm
 				state("s0") { //this:State
 					action { //it:State
-						CommUtils.outcyan("$name in ${currentState.stateName} | $currentMsg | ${Thread.currentThread().getName()} n=${Thread.activeCount()}")
-						 	   
+						if(  ! currentMsg.isEvent()  
+						 ){CommUtils.outblack("$name waiting ..")
+						}
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
 					 transition(edgeName="t00",targetState="engageAccept",cond=whenRequest("engage"))
-					transition(edgeName="t01",targetState="handleEvent",cond=whenEvent("sonardata"))
+					transition(edgeName="t01",targetState="disengageRobot",cond=whenDispatch("disengage"))
 				}	 
 				state("handleEngage") { //this:State
 					action { //it:State
@@ -45,9 +46,23 @@ class Engager ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sc
 					sysaction { //it:State
 					}	 	 
 				}	 
+				state("disengageRobot") { //this:State
+					action { //it:State
+						CommUtils.outcyan("$name in ${currentState.stateName} | $currentMsg | ${Thread.currentThread().getName()} n=${Thread.activeCount()}")
+						 	   
+						 Owner  = "unkknown"  
+						forward("disengaged", "disengaged($Owner)" ,"basicrobot" ) 
+						emitLocalStreamEvent("alarm", "alarm(disengaged)" ) 
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition( edgeName="goto",targetState="s0", cond=doswitch() )
+				}	 
 				state("engageRefuse") { //this:State
 					action { //it:State
-						 CommUtils.outmagenta("engagerefused since working for by $Owner" )  
+						CommUtils.outblack("$name engage refused since already working for $Owner")
 						answer("engage", "engagerefused", "engagerefused($Owner)"   )  
 						//genTimer( actor, state )
 					}
@@ -60,7 +75,7 @@ class Engager ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sc
 					action { //it:State
 						CommUtils.outcyan("$name in ${currentState.stateName} | $currentMsg | ${Thread.currentThread().getName()} n=${Thread.activeCount()}")
 						 	   
-						if( checkMsgContent( Term.createTerm("engage(ARG)"), Term.createTerm("engage(OWNER)"), 
+						if( checkMsgContent( Term.createTerm("engage(OWNER)"), Term.createTerm("engage(OWNER)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								 if( currentMsg.conn != null ) curConn = currentMsg.conn					
 												   Owner  = payloadArg(0)
@@ -68,6 +83,8 @@ class Engager ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sc
 												   CommUtils.outmagenta("engager | engaged by remote $Owner  on $curConn" )		
 												   else 		   
 												   CommUtils.outmagenta("engager | engaged by local $Owner = ${payloadArg(0)} " )	
+								updateResourceRep( "workingfor($Owner)"  
+								)
 								answer("engage", "engagedone", "engagedone($Owner)"   )  
 								forward("engaged", "engaged($Owner)" ,"basicrobot" ) 
 						}
@@ -91,8 +108,7 @@ class Engager ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sc
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t02",targetState="handleEvent",cond=whenEvent("sonardata"))
-					transition(edgeName="t03",targetState="handleEvent",cond=whenEvent("obstacle"))
+					 transition( edgeName="goto",targetState="s0", cond=doswitch() )
 				}	 
 			}
 		}

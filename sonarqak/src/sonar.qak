@@ -1,0 +1,23 @@
+System sonar
+
+
+
+
+Context ctxsonarqak23 ip [host="localhost" port=8020]
+Context ctxbasicrobot ip [host="127.0.0.1" port=8020]
+
+
+QActor sonar23 context ctxsonar {
+	
+	
+	State s0 initial {
+		
+	}
+}
+
+QActor appl context ctxsonar {
+	
+	State s0 initial {
+		
+	}
+}
