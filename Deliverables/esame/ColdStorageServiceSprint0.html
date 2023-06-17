@@ -1,0 +1,292 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <!--
+<link rel="stylesheet" type="text/css" href="../css/issStyle1.css">
+<script type="text/javascript" src="../css/issStyle.js"></script>
+-->
+<style type="text/css">
+body
+{
+    margin-left:  30px;
+    margin-right: 30px;
+};
+
+P
+{
+    font-family: Tahoma;
+    font-size: 10pt;
+};
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+	font-size: 93%;
+}
+
+a:hover {
+    background-color: #cccccc;
+}
+
+
+hr {
+    clear: both;
+    height: 1px;
+    color: #242424;
+    background-color: transparent;
+}
+
+h1, h2, h3 {
+    color: #242424;
+    clear: left;
+    font: 100% Tahoma, Helvetica, Arial, sans-serif;
+    margin-bottom: 0.5em;
+    padding-top: 0.5em;
+	border-radius: 10px;
+	padding: 5px;
+}
+
+top {
+	width: 100%;
+}
+
+
+#i {
+    color: #ff1010;
+}
+tt{
+	font-family: "Arial";
+    font-size: 90%;
+	color: #006600;
+}
+em{
+	font-family: "Arial";
+    font-size: 80%;
+	font-weight: bold;
+	border-style:solid;
+	border-color: #abe876;
+    color: #1632cc;
+}
+bc{
+	font-family: "Arial";
+	font-size: 90%;
+	font-weight: bold;
+    color: #990000;
+}
+ks{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #0000CD	;
+	font-size: 90%;
+}
+kc{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #008000	;
+	font-size: 90%;
+}
+pre{
+	font-family: "Consolas";
+	font-size: 85%;
+	background-color: #f5f5f5;
+	border: 1.5px solid silver;
+	padding: 5px;
+}
+m{
+	font-family: "Helvetica";
+	line-height: 100%;
+ 	font-size: 75%;
+}
+div.body{
+	 
+    font-size: 18px;
+}
+k{
+    color: #990000;
+	font-weight: bold;
+	font-size: 90%;
+}
+h1 {
+    font-size: 150%;
+    background-color: #b2c0ff;
+	padding: 10px;
+}
+
+h2 {
+    background-color: #9ed8ff;
+    font-size: 130%;
+}
+
+h3 {
+	background-color: #e6ccff;
+    font-size: 100%;
+}
+h4 {
+    background-color: #ccffcc;
+    font-size: 100%;
+	width: 95%;
+	border-radius: 5px;
+	padding: 2px;
+}
+h5 {
+    background-color: #d5ffb0;
+    font-size: 100%;
+
+}
+div.req{
+	background-color: #d9ffb3;
+    font-size: 18px;
+	width: 700px;
+    border: 3px solid green;
+    padding: 15px;
+    margin: 10px;
+}
+div.remark{
+	background-color: #E3F2FD;
+    border: 1.5px solid #d5f2ed;
+    padding: 15px;
+    margin: 10px;
+	border-radius: 25px;
+}
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+ol, ul, li {
+  margin: 0;
+  margin-left: 10px;
+  padding: 0;
+  padding-bottom: 5px;
+}
+
+table, th, td {
+	border: 1px solid black;
+}
+
+img {
+	border: 1.5px solid #d5f2ed
+
+}
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+}
+
+div.wrapdesc{
+	width: 90%;
+	margin: auto;
+}
+
+div.imagedesc{
+	width: 85%;
+	margin: auto;
+}
+</style>
+    
+<head>
+   <title>Riccardo Barbieri</title>
+</head>
+    
+<body>
+
+<div id="top">
+
+    <h1>LABORATORIO DI INGEGNERIA DEI SISTEMI SOFTWARE<font size="5"></font> </h1>
+
+</div>
+
+<div class="body"> 
+
+<h2>Introduction</h2>
+ 
+ 
+<h2>Requirements</h2>
+ 
+<div class="remark">
+    <a target="_blank" href="https://iss.riccardohost.space/TemaFinale23.html">Descrizione requirements a questa pagina</a><br>
+
+<bc>Goals dello sprint 0</bc>:
+<ol>
+    <li>Identificare i componenti principali del servizio <b>ColdStorageService</b></li>
+    <li>Formulare un modello di interazione dei componenti individuati</li>
+    <li>Sviluppare un prototipo su base non distribuita</li>
+</ol>
+
+</div>
+
+<h2>Requirement analysis</h2>
+
+<div class="remark">
+
+In questa analisi dei requisiti si concentrer&agrave; l'attenzione su i seguenti <b>componenti</b>, individuati dai requisiti forniti dal committente:
+<ol>
+    <li><b>ColdStorageService</b></li>
+    <li>Service area</li>
+    <li>ColdRoom</li>
+    <li>Transport trolley</li>
+    <li>DDR Robot</li>
+    <li>Camion refrigerato</li>
+</ol><br>
+
+La <b>Service area</b> &egrave; la zona percorribile dal transport trolley, &egrave; un'area rettangolare e piatta di dimensioni e configurazione note a priori, &egrave; composta da:
+<ol>
+    <li>HOME: zona sul pavimento dalla quale il robot parte</li>
+    <li>INDOOR: sezione di un muro dell'area dove il transport trolley pu&ograve; ritirare le merci</li>
+    <li>ostacoli: oggetti che limitano l'area percorribile dal transport trolley</li>
+    <li>PORT: faccia di particolare ostacolo, la ColdRoom</li>
+</ol><br>
+
+La <b>ColdRoom</b> &egrave; un container refrigerato per cibo, costituisce la destinazione del materiale ritirato dal transport trolley al punto di INDOOR.<br>
+
+Il <b>Transport trolley</b> &egrave; un veicolo di impronta quadrata (di lato <b>RD</b>), incaricato di trasportare il materiale caricato da INDOOR alla PORT della ColdRoom, depositandolo.<br>
+
+Il <b>camion refrigerato</b> rappresenta un utente del servizio che si posiziona all'esterno di INDOOR in attesa del ritiro da parte del tansport trolley.<br>
+
+Il committente indica che il transport trolley &egrave; concretizzato da un DDR (Differential Drive Robot) robot che inizia il suo ciclo di vita alla posizione HOME.<br>
+
+La fase di deposito del transport trolley &egrave; definita come segue:
+<ol>
+    <li>ritirare un carico di cibo da un camion refigerato da INDOOR</li>
+    <li>spostarsi da INDOOR a PORT</li>
+    <li>depositare il carico nella ColdRoom</li>
+</ol><br>
+
+
+<br>coordinate? da specificare nell'analisi dei requisiti? o problema? fornite dal committente?<br>
+
+Il <b>ColdStorageService</b> &egrave; l'entit&agrave; del sistema che coordina il comportamento degli altri componenti implementando la <i>business-logic</i> dell'applicazione.<br>
+
+</div>
+
+<h2>Problem analysis</h2>
+
+<div class="remark">
+Si &egrave; deciso di modellare l'interazione dei componenti specificato tramite il modello ad attori QAK, gli attori identificati
+</div>
+
+<h2>Test plans</h2> 
+
+
+<h2>Project</h2> 
+ 
+
+<h2>Testing</h2> 
+ 
+
+<h2>Deployment</h2> 
+
+ 
+<h2>Maintenance</h2> 
+ 
+<br/><br/> 	
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:60%;text-align:left;color:white">
+By Riccardo Barbieri email: riccardo.barbieri11@studio.unibo.it, 
+<img src="../../_images/fototessera.jpg" alt="mbot" width="15%" height="15%">
+GIT repo: https://github.com/RiccardBarbieri/BarbieriRiccardoIss23 
+</div> 
+</body>
+</html>
