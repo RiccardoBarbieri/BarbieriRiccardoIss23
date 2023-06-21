@@ -72,6 +72,7 @@ bc{
 	font-size: 90%;
 	font-weight: bold;
     color: #990000;
+	background-color: #fcf8c7;
 }
 ks{
 	font-family: "Arial";
@@ -196,7 +197,7 @@ div.imagedesc{
 
     <h1>LABORATORIO DI INGEGNERIA DEI SISTEMI SOFTWARE<font size="5"></font> </h1>
 
-</div>
+</div>  
 
 <div class="body"> 
 
@@ -206,68 +207,25 @@ div.imagedesc{
 <h2>Requirements</h2>
  
 <div class="remark">
-    <a target="_blank" href="https://iss.riccardohost.space/TemaFinale23.html">Descrizione requirements a questa pagina</a><br>
-
-<bc>Goals dello sprint 0</bc>:
-<ol>
-    <li>Identificare i componenti principali del servizio <b>ColdStorageService</b></li>
-    <li>Formulare un modello di interazione dei componenti individuati</li>
-    <li>Sviluppare un prototipo su base non distribuita</li>
-</ol>
-
+    <a target="_blank" href="../res/TemaFinale22.html">Descrizione requirements a questa pagina</a>
 </div>
 
 <h2>Requirement analysis</h2>
+ 
 
-<div class="remark">
-
-In questa analisi dei requisiti si concentrer&agrave; l'attenzione su i seguenti <b>componenti</b>, individuati dai requisiti forniti dal committente:
-<ol>
-    <li><b>ColdStorageService</b></li>
-    <li>Service area</li>
-    <li>ColdRoom</li>
-    <li>Transport trolley</li>
-    <li>DDR Robot</li>
-    <li>Camion refrigerato</li>
-</ol><br>
-
-La <b>Service area</b> &egrave; la zona percorribile dal transport trolley, &egrave; un'area rettangolare e piatta di dimensioni e configurazione note a priori, &egrave; composta da:
-<ol>
-    <li>HOME: zona sul pavimento dalla quale il robot parte</li>
-    <li>INDOOR: sezione di un muro dell'area dove il transport trolley pu&ograve; ritirare le merci</li>
-    <li>ostacoli: oggetti che limitano l'area percorribile dal transport trolley</li>
-    <li>PORT: faccia di particolare ostacolo, la ColdRoom</li>
-</ol><br>
-
-La <b>ColdRoom</b> &egrave; un container refrigerato per cibo, costituisce la destinazione del materiale ritirato dal transport trolley al punto di INDOOR.<br>
-
-Il <b>Transport trolley</b> &egrave; un veicolo di impronta quadrata (di lato <b>RD</b>), incaricato di trasportare il materiale caricato da INDOOR alla PORT della ColdRoom, depositandolo.<br>
-
-Il <b>camion refrigerato</b> rappresenta un utente del servizio che si posiziona all'esterno di INDOOR in attesa del ritiro da parte del tansport trolley.<br>
-
-Il committente indica che il transport trolley &egrave; concretizzato da un DDR (Differential Drive Robot) robot che inizia il suo ciclo di vita alla posizione HOME.<br>
-
-La fase di deposito del transport trolley &egrave; definita come segue:
-<ol>
-    <li>ritirare un carico di cibo da un camion refigerato da INDOOR</li>
-    <li>spostarsi da INDOOR a PORT</li>
-    <li>depositare il carico nella ColdRoom</li>
-</ol><br>
-
-
-<br>coordinate? da specificare nell'analisi dei requisiti? o problema? fornite dal committente?<br>
-
-Il <b>ColdStorageService</b> &egrave; l'entit&agrave; del sistema che coordina il comportamento degli altri componenti implementando la <i>business-logic</i> dell'applicazione.<br>
-
-</div>
 
 <h2>Problem analysis</h2>
-
-<div class="remark">
-Si &egrave; deciso di modellare l'interazione dei componenti specificato tramite il modello ad attori QAK, gli attori identificati
-</div>
+ 
 
 <h2>Test plans</h2> 
+
+<div class="remark">
+
+</div>
+
+<div class="remark">
+
+</div>
 
 
 <h2>Project</h2> 
