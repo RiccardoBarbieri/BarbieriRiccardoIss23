@@ -1,0 +1,111 @@
+System coldstorageservice
+
+Event trolleystate	: trolleystate(STATE,COORDINATES)
+Event deniedrequests	: deniedrequests(NUMERO)
+
+//SERVICE ACCESS GUI e APPL
+Request newticket	: newticket(PESO)
+Reply ticket	:ticket(CODICETICKET, TICKETTIME)
+Request insertticket	: insertticket(CODICETICKET)
+Reply verifyticket		: verifyticket(YESNO)
+
+Dispatch chargetaken	:chargetaken(ARG)
+
+//ColdRoomManager e Appl
+Request checkspace	: checkspace(PESO)
+Reply coldroomtarget	:coldroomtarget(YESNO, COORDINATES)
+Event currentpeso	: currentpeso(PESO)
+
+//TICKETMANAGER E APPL 
+Request createticket	: createticket(ARG)
+Reply getticket			: getticket(YESNO,CODICETICKET)
+Request checktickettime	: checktickettime(CODICETICKET,TICKETTIME)
+Reply confirmtickettime	: confirmtickettime(YESNO)
+
+//TransportTrolleyManager 
+Dispatch moveRobot	: moveRobot(DESTINAZIONE)
+
+//da sonar a alarmsonar
+Dispatch distance	: distance(D)
+
+//da alarm sonar a appl
+Dispatch sendalarm	: sendalarm(ONOFF)
+
+//da appl a robot
+Dispatch startrobot	: startrobot(ARG)
+Dispatch resumerobot	:resumerobot(ARG)
+Dispatch stoprobot	: stoprobot(ARG)
+
+Context ctxcoldstorage ip [host="localhost" port=8021]
+
+//IN LOCALE
+CodedQActor sonar  context ctxcoldstorage className "sonarSimulator" 
+CodedQActor datacleaner    context ctxcoldstorage className 
+"rx.dataCleaner"
+CodedQActor distancefilter context ctxcoldstorage className 
+"rx.distanceFilter" 
+
+//SU RASP
+//CodedQActor sonar  context ctxsonarqak23 className 
+//"sonarHCSR04Support23"   
+//CodedQActor datalogger     context ctxsonarqak23 className 
+//"rx.dataLogger"
+
+ExternalQActor basicrobot context ctxcoldstorage 
+
+QActor serviceaccessgui context ctxcoldstorage {
+    State s0 initial {
+		println("Inizio") color blue
+    }
+}
+
+//la servicestatusgui probabilmente verrebbe gestita con un pattern 
+//observer per ripsettare il principio di songola responsibilità
+QActor servicestatusgui context ctxcoldstorage {
+    State s0 initial {
+		println("Inizio") color green
+    }
+}
+
+QActor appl context ctxcoldstorage {
+    State s0 initial {
+		println("Inizio") color yellow
+    }
+}
+
+QActor ticketmanager context ctxcoldstorage {
+    State s0 initial {
+		println("Inizio") color magenta
+    }
+}
+
+QActor alarmsonar context ctxcoldstorage {
+    State s0 initial {
+		println("Inizio") color green
+		[# 
+subscribeToLocalActor("distancefilter").subscribeToLocalActor("datacleaner").subscribeToLocalActor("sonar") 
+#]
+	}
+}
+
+QActor ledmanager context ctxcoldstorage {
+    State s0 initial {
+		println("Inizio") color blue
+    }
+}
+
+QActor coldroommanager context ctxcoldstorage {
+    State s0 initial {
+		println("Inizio") color black
+    }
+}
+
+//Il basic robot gestisce solo robot ma se in un futuro abbiamo un drone 
+//occorre gestirlo
+QActor transporttrolleymanager context ctxcoldstorage {
+    State s0 initial {
+		println("Inizio") color red
+    }
+}
+
+

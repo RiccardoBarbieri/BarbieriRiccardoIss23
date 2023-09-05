@@ -4,55 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4c3c3110-410d-4cbf-9548-c0723381ed26" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Api_basicrobot.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Arch_basicrobot.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/basicrobot23.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mapCompleteWithObst23ok.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mapCompleteWithObst23ok.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mapEmpty23.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mapEmpty23.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/it/unibo/envsonarhandler/Envsonarhandler.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/it/unibo/planexec/Planexec.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/it/unibo/robotposclient/Robotposclient.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/it/unibo/robotposendosimbiotico/Robotposendosimbiotico.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../unibolibs/it.unibo.radarSystem22.domain-1.0.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../unibolibs/radarPojo.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../unibolibs/unibonoawtsupports.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/resourceHashesCache.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.settings/org.eclipse.buildship.core.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/.settings/org.eclipse.buildship.core.prefs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/.settings/org.eclipse.jdt.core.prefs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Api_basicrobot23.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Api_basicrobot23.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Arch_basicrobot23.py" beforeDir="false" afterPath="$PROJECT_DIR$/Arch_basicrobot23.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/basicrobot23.pl" beforeDir="false" afterPath="$PROJECT_DIR$/basicrobot23.pl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/basicrobot23arch.png" beforeDir="false" afterPath="$PROJECT_DIR$/basicrobot23arch.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/basicrobotConfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/basicrobotConfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build2022.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build2022.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qakrestappl_Transitions.txt" beforeDir="false" afterPath="$PROJECT_DIR$/qakrestappl_Transitions.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/robotVirtual/VrobotHLMovesActors23.java" beforeDir="false" afterPath="$PROJECT_DIR$/resources/robotVirtual/VrobotHLMovesActors23.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/robotVirtual/VrobotMsgs.java" beforeDir="false" afterPath="$PROJECT_DIR$/resources/robotVirtual/VrobotMsgs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/uniborobots/robotSupport.kt" beforeDir="false" afterPath="$PROJECT_DIR$/resources/uniborobots/robotSupport.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/basicrobot.qak" beforeDir="false" afterPath="$PROJECT_DIR$/src/basicrobot.qak" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/it/unibo/basicrobot/Basicrobot.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/basicrobot/Basicrobot.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/it/unibo/basicrobotusage/Basicrobotusage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/basicrobotusage/Basicrobotusage.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/it/unibo/ctxbasicrobot/MainCtxbasicrobot.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/ctxbasicrobot/MainCtxbasicrobot.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/it/unibo/engager/Engager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/engager/Engager.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stepTimeConfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/stepTimeConfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../unibo.radarsystemqak23/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../unibo.radarsystemqak23/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../unibolibs/unibo.basicomm23-1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../unibolibs/unibo.basicomm23-1.0.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../unibolibs/unibo.planner23-1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../unibolibs/unibo.planner23-1.0.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../unibolibs/unibo.qakactor23-3.5.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../unibolibs/unibo.qakactor23-3.5.jar" afterDir="false" />
-    </list>
+    <list default="true" id="4c3c3110-410d-4cbf-9548-c0723381ed26" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -107,7 +59,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/home/riccardoob/repoIss23/BarbieriRiccardoIss23/unibo.basicrobot23",
+    "last_opened_file_path": "/home/riccardoob/repoIss23/BarbieriRiccardoIss23/it.unibo.kotlinIntro",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -131,7 +83,7 @@
       <recent name="robotVirtual" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.WsServer">
     <configuration name="WsServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="uniborobots.WsServer" />
       <module name="unibo.basicrobot23.main" />
@@ -196,6 +148,7 @@
       <option name="presentableId" value="Default" />
       <updated>1654414760896</updated>
       <workItem from="1685630581164" duration="1751000" />
+      <workItem from="1686232672375" duration="55000" />
     </task>
     <servers />
   </component>
