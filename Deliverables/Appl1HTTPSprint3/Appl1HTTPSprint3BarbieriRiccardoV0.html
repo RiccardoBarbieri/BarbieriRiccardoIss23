@@ -22,9 +22,9 @@
 In questo documento si tratter&agrave; l'analisi e lo sviluppo dello sprint 3 dell'applicazione HTTP BoundaryWalk.<br>
 
 Dallo sprint 2 si &egrave; ottenuta la seguente architettura:<br>
-<img src="https://iss.riccardohost.space/_images/Appl1HTTPSprint2Final.png" width="auto" height="200em"></img>
+<img src="https://iss.riccardob.dev/_images/Appl1HTTPSprint2Final.png" width="auto" height="200em"></img>
 <br>
-La classe <a href="https://iss.riccardohost.space/code#Appl1Core"><code class="prettyprint">unibo.appl1.http.Appl1Core</code></a> realizza la logica applicativa ed &egrave; resa osservabile al fine di accettare <code class="prettyprint">Observer</code> sui quali si basa la strategia di testing.
+La classe <a href="https://iss.riccardob.dev/code#Appl1Core"><code class="prettyprint">unibo.appl1.http.Appl1Core</code></a> realizza la logica applicativa ed &egrave; resa osservabile al fine di accettare <code class="prettyprint">Observer</code> sui quali si basa la strategia di testing.
 
 </div>
 
@@ -34,8 +34,8 @@ La classe <a href="https://iss.riccardohost.space/code#Appl1Core"><code class="p
 
 <div class="req">
 <ol>
-    <li>Realizzazione di <a href="https://iss.riccardohost.space/code#Appl1"><code class="prettyprint">Appl1</code></a> come ente attivo (<b>actor</b>) in grado di ricevere messaggi tramite un protocollo <b>P</b>, interpretare i messaggi ricevuti convertendoli in comandi a <a href="https://iss.riccardohost.space/code#Appl1Core"><code class="prettyprint">unibo.appl1.http.Appl1Core</code></a></li>
-    <li>Realizzazione della <a href="https://iss.riccardohost.space/code#Appl1HttpSprint3CmdConsole"><code class="prettyprint">CmdConsole</code></a> come entit&agrave; attiva che, a seguito di interazioni con umani, invia comandi a <code class="prettyprint">Appl1</code> utilizzando il protocollo <b>P</b></li>    
+    <li>Realizzazione di <a href="https://iss.riccardob.dev/code#Appl1"><code class="prettyprint">Appl1</code></a> come ente attivo (<b>actor</b>) in grado di ricevere messaggi tramite un protocollo <b>P</b>, interpretare i messaggi ricevuti convertendoli in comandi a <a href="https://iss.riccardob.dev/code#Appl1Core"><code class="prettyprint">unibo.appl1.http.Appl1Core</code></a></li>
+    <li>Realizzazione della <a href="https://iss.riccardob.dev/code#Appl1HttpSprint3CmdConsole"><code class="prettyprint">CmdConsole</code></a> come entit&agrave; attiva che, a seguito di interazioni con umani, invia comandi a <code class="prettyprint">Appl1</code> utilizzando il protocollo <b>P</b></li>    
 </ol>
 
 </div> 
@@ -84,13 +84,13 @@ Questi scambi di messaggi richiedono un supporto di comunicazione che si concret
 Con questa nuova infrastruttura di comunicazione, si classificano i componenti <code class="prettyprint">CmdConsole</code> e <code class="prettyprint">Appl1</code> come <i><b>attori</b></i>, ovvero entit&agrave; computazionali prive di memoria comune che interagiscono tramite scambio di messaggi.
 
 In questa immagine si rappresenta una architettura intermedia che denota la struttura di comunicazione tra gli attori:<br>
-<img height="150em" src="https://iss.riccardohost.space/_images/Appl1ArchSprint3Interaction.png" alt="Appl1ArchSprint3Interaction"><br>
+<img height="150em" src="https://iss.riccardob.dev/_images/Appl1ArchSprint3Interaction.png" alt="Appl1ArchSprint3Interaction"><br>
 
 <h3>Architettura logica</h3>
-<img height="250em" src="https://iss.riccardohost.space/_images/Appl1FinalArchitecture.png" alt="Appl1FinalArchitecture"><br>
+<img height="250em" src="https://iss.riccardob.dev/_images/Appl1FinalArchitecture.png" alt="Appl1FinalArchitecture"><br>
 Nella figura &egrave; rappresentata l'architettura logica finale del progetto Appl1.<br><br>
 
-Si denota il componente <a href="https://iss.riccardohost.space/code#Appl1MsgHandler"><code class="prettyprint">Appl1MsgHandler</code></a> che riceve dal server le richieste inviate dalla console tramite il metodo <code class="prettyprint">elaborate</code> e le inoltra correttamente al core dell'applicazione, questo componente si occupa anche di costruire e inviare le risposte per richieste che li prevedono.
+Si denota il componente <a href="https://iss.riccardob.dev/code#Appl1MsgHandler"><code class="prettyprint">Appl1MsgHandler</code></a> che riceve dal server le richieste inviate dalla console tramite il metodo <code class="prettyprint">elaborate</code> e le inoltra correttamente al core dell'applicazione, questo componente si occupa anche di costruire e inviare le risposte per richieste che li prevedono.
 
 </div>
 

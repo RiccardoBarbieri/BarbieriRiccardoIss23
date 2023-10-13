@@ -29,8 +29,8 @@ Il VirtualRobot deve percorrere (una volta) il bordo perimetrale della stanza ra
 
 <h2>Requirement analysis</h2>
 <div class="remark">
-Per VirtualRobot, il committente intende: si veda <a href="https://iss.riccardohost.space/VirtualRobot23.html">VirtualRobot23</a><br>
-Per <i>scena WEnv</i> il committente intende: si veda <a href="https://iss.riccardohost.space/VirtualRobot23.html#la-scena-di-wenv">Scena WEnv</a><br>
+Per VirtualRobot, il committente intende: si veda <a href="https://iss.riccardob.dev/VirtualRobot23.html">VirtualRobot23</a><br>
+Per <i>scena WEnv</i> il committente intende: si veda <a href="https://iss.riccardob.dev/VirtualRobot23.html#la-scena-di-wenv">Scena WEnv</a><br>
 Per "percorrere il bordo della stanza" (Boundary Walk) si intende uno spostamento a una certa distanza sufficientemente bassa dalle pareti che denotano il bordo della stanza.
 </div>
 <h2>Problem analysis</h2>
@@ -51,7 +51,7 @@ Avendo la possibilità di individuare le collisioni, &egrave; possibile verifica
     <li> {"robotmove": "turnLeft", "time": 400} </li>
     <li> Ripetere 4 volte </li>
 </ol>
-Questa strategia pu&ograve; avere successo solo se il robot si trova nella posizione <a href="https://iss.riccardohost.space/VirtualRobot23.html#stato-iniziale-del-virtualrobot">HOME</a>.<br>
+Questa strategia pu&ograve; avere successo solo se il robot si trova nella posizione <a href="https://iss.riccardob.dev/VirtualRobot23.html#stato-iniziale-del-virtualrobot">HOME</a>.<br>
 Un strategia di questo tipo garantisce che il robot abbia effettuato quattro collisioni, e non una vera e propria Boundary Walk; per affinare la precisione della rilevazioni &egrave; necessario definire formalmente un <b id="modello">modello della stanza</b>, per individuare eventuali vincoli utili.<br>
 La stanza in questione pu&ograve; essere modellata come un <b>rettangolo</b><br>
 <img src="../../_images/mod_stanza.png" width="20%" height="auto" alt="Modello stanza scena WEnv"><br>
@@ -113,13 +113,13 @@ Un altro approccio utile a questa verifica consiste nel introdurre una mossa log
 Tutte le interazioni con il robot, in questa fase del progetto, verranno effettuate tramite il protocollo sincrono HTTP, a questo scopo si fa uso della classe <code class="prettyprint">unibo.basicomm23.http.HTTPCommApache</code> che permette di creare un client HTTP specificando un URL e mette a disposizione il metodo <code class="prettyprint">requestSynch(String msg)</code> che invia la stringa <code class="prettyprint">msg</code> al robot tramite una richiesta POST HTTP.
 
 <br>
-<a target="_blank" href="https://iss.riccardohost.space/code/Appl1Sprint1Code.html#HTTPCommApache">Codice classe HTTPCommApache</a>
+<a target="_blank" href="https://iss.riccardob.dev/code/Appl1Sprint1Code.html#HTTPCommApache">Codice classe HTTPCommApache</a>
 <br>
 
 Il robot virtuale &egrave; in grado di effettuare un insieme preciso di mosse, allo scopo di formalizzare e uniformare questo insieme si crea l'interfaccia <code class="prettyprint">unibo.common.IVrobotMoves</code>: ogni tipo di robot virtuale dovr&agrave; offrire i metodi definiti in questa interfaccia, questi implementeranno la strategia di invio della richiesta e eventualmente genereranno eccezioni in caso di errore nella comunicazione.
 
 <br>
-<a target="_blank" href="https://iss.riccardohost.space/code/Appl1Sprint1Code.html#IVrobotMoves">Codice interfaccia IVrobotMoves</a>
+<a target="_blank" href="https://iss.riccardob.dev/code/Appl1Sprint1Code.html#IVrobotMoves">Codice interfaccia IVrobotMoves</a>
 <br>
 
 Si noti in particolare la funzione <code class="prettyprint">int step(int time)</code>, questa funzione deve restituire valore <code class="prettyprint">true</code> se lo step viene completato senza collisioni, <code class="prettyprint">false</code> altrimenti.
@@ -127,13 +127,13 @@ Si noti in particolare la funzione <code class="prettyprint">int step(int time)<
 Per evitare di dover riscrivere le stringhe di richiesta all'interno del codice e errori di sintassi nel messaggio, si crea la classe <code class="prettyprint">unibo.common.VrobotMsgs</code>.
 
 <br>
-<a target="_blank" href="https://iss.riccardohost.space/code/Appl1Sprint1Code.html#VrobotMsgs">Codice classe VrobotMsgs</a>
+<a target="_blank" href="https://iss.riccardob.dev/code/Appl1Sprint1Code.html#VrobotMsgs">Codice classe VrobotMsgs</a>
 <br>
 
 Una prima implementazione dell'interfaccia si realizza nella classe <code class="prettyprint">unibo.supports.VrobotHLMovesHTTPApache</code>, che utilizza un'instanza della classe <code class="prettyprint">HTTPApache</code> per inviare le richieste al robot virtuale e genera eccezioni in caso di collisione.
 
 <br>
-<a target="_blank" href="https://iss.riccardohost.space/code/Appl1Sprint1Code.html#VrobotHLMoveHTTPApache">Codice classe VrobotHLMoveHTTPApache</a>
+<a target="_blank" href="https://iss.riccardob.dev/code/Appl1Sprint1Code.html#VrobotHLMoveHTTPApache">Codice classe VrobotHLMoveHTTPApache</a>
 <br>
 
 &Egrave; stata definita inoltre l'eccezione custom <code class="prettyprint">CollisionException</code> che viene lanciata quando il robot effettua una collisione.<br>
@@ -141,7 +141,7 @@ Una prima implementazione dell'interfaccia si realizza nella classe <code class=
 Viene infine definita la classe <code class="prettyprint">unibo.http.Appl1HTTPSprint1</code> che ha il compito di configurare il client HTTP, creare un oggetto <code class="prettyprint">VrobotHLMovesHTTPApache</code> e di eseguire l'effettiva Boundary Walk.
 
 <br>
-<a target="_blank" href="https://iss.riccardohost.space/code/Appl1Sprint1Code.html#Appl1HTTPSprint1">Codice classe Appl1HTTPSprint1</a>
+<a target="_blank" href="https://iss.riccardob.dev/code/Appl1Sprint1Code.html#Appl1HTTPSprint1">Codice classe Appl1HTTPSprint1</a>
 <br>
 
 Questa classe espone inoltre alcuni metodi che saranno utili nella fase di testing.
@@ -152,7 +152,7 @@ Questa classe espone inoltre alcuni metodi che saranno utili nella fase di testi
 L'implementazione dei test per questa applicazione si basa sul <a href="#modello">modello</a> della stanza.<br>
 La test unit <code class="prettyprint">TestAppl1HTTPSprint1</code> per prima cosa verifica che il robot sia nella posizione HOME tramite il metodo <code class="prettyprint">Appl1HTTPSprint1.checkRobotAtHome()</code>.<br>
 Se questo test ha successo, utilizzando la funzione <code class="prettyprint">Appl1HTTPSprint1.walkByStepping(int n)</code>, il test sposta il robot in step successivi di durata ridotta passando come parametro l'indiche del lato della stanza corrente; viene effettuato poi un controllo sull'array che tiene traccia del numero di step: se il numero di step per lati opposti &egrave; lo stesso il test ha successo, altrimenti fallisce.
-<br><a target="_blank" href="https://iss.riccardohost.space/code/Appl1Sprint1Code.html#TestAppl1HTTPSprint">Codice classe TestAppl1HTTPSprint</a>
+<br><a target="_blank" href="https://iss.riccardob.dev/code/Appl1Sprint1Code.html#TestAppl1HTTPSprint">Codice classe TestAppl1HTTPSprint</a>
 </div>
 <br>
 
